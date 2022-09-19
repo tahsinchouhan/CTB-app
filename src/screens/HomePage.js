@@ -1,26 +1,22 @@
-import {useQuery} from '@tanstack/react-query';
 import React from 'react';
-import {Image, Pressable, SafeAreaView, Text, View} from 'react-native';
-import Graph from '../Components/Graph';
-import Header from '../Components/Header';
-import MiniCard from '../Components/MiniCard';
+import {Pressable, SafeAreaView, Text, View} from 'react-native';
+import Graph from '../components/Graph';
+import Header from '../components/Header';
+import MiniCard from '../components/MiniCard';
 
 function HomePage({navigation}) {
-  const {isLoading, error, data} = useQuery(['repoData'], () => {
-    console.log('ddbv');
-    return [];
-  });
-
-  if (isLoading) console.log(isLoading);
-
-  if (error) console.log(error);
-  console.log(data, isLoading, error);
+  // const {
+  //   data = [],
+  //   isLoading,
+  //   error,
+  // } = useQuery([DONATIONS_QUERY], DonationDB.getDonations);
+  // //
   return (
     <SafeAreaView className="bg-white">
-      <View className="bg-white h-screen box-border p-6">
+      <View className="bg-white h-screen box-border">
         <Header title="Home" />
         <View className="h-full">
-          <View className="py-2 px-8 bg-secondary h-28 rounded-2xl flex flex-row justify-between items-center ">
+          <View className="py-2 px-8 mx-4 bg-secondary h-28 rounded-2xl flex flex-row justify-between items-center ">
             <Text className="text-white font-bold text-lg w-[50%]">
               Start new Fundraising
             </Text>
@@ -56,14 +52,17 @@ function HomePage({navigation}) {
             />
           </View>
 
-          <View className="flex flex-row justify-between">
+          {/* <View className="flex flex-row justify-between">
             <Text className="font-semibold text-2xl ">Statics</Text>
             <Image
               source={require('../assets/images/dot.png')}
               className="w-10"
             />
-          </View>
-          <View>
+          </View> */}
+          <View className="px-2">
+            <Text className="text-sm font-pop">
+              Donation Statistics medical
+            </Text>
             <Graph />
           </View>
         </View>

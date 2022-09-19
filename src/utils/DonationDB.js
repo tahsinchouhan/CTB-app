@@ -23,7 +23,7 @@ const DonationDB = {
       const donations = await RemoteDonationDB.allDocs({
         include_docs: true,
       });
-      console.log({donations});
+      console.log(donations.rows || []);
       return donations.rows || [];
     } catch (error) {
       throw new Error(error.message);

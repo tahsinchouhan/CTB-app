@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, Text, View} from 'react-native';
-import Header from '../Components/Header';
+import Header from '../components/Header';
 function DetailsPage({navigation}) {
   return (
     <SafeAreaView className="bg-white">
