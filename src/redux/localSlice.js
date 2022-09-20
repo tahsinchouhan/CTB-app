@@ -2,6 +2,8 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   intro: true,
+  langPicked: false,
+  lang: 'en',
 };
 
 export const counterSlice = createSlice({
@@ -11,9 +13,16 @@ export const counterSlice = createSlice({
     setIntro: (state, action) => {
       state.intro = action.payload;
     },
+    setLangPicked: (state, action) => {
+      state.langPicked = action.payload;
+    },
+    setLang: (state, action) => {
+      state.lang = action.payload;
+      state.langPicked = true;
+    },
   },
 });
 
-export const {setIntro} = counterSlice.actions;
+export const {setIntro, setLangPicked, setLang} = counterSlice.actions;
 
 export default counterSlice.reducer;
