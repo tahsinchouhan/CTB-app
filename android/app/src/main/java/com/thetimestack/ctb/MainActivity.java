@@ -1,4 +1,4 @@
-package com.ctb;
+package com.thetimestack.ctb;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "CTB";
+    return "CTB36";
   }
 
   /**

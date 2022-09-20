@@ -1,4 +1,4 @@
-package com.ctb.newarchitecture.modules;
+package com.thetimestack.ctb.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

@@ -1,4 +1,4 @@
-package com.ctb.newarchitecture;
+package com.thetimestack.ctb.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.ctb.BuildConfig;
-import com.ctb.newarchitecture.components.MainComponentsRegistry;
-import com.ctb.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.thetimestack.ctb.BuildConfig;
+import com.thetimestack.ctb.newarchitecture.components.MainComponentsRegistry;
+import com.thetimestack.ctb.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
