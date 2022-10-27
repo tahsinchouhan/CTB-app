@@ -8,12 +8,6 @@ import Router from './routes';
 
 const queryClient = new QueryClient();
 
-if (__DEV__) {
-  import('react-query-native-devtools').then(({addPlugin}) => {
-    addPlugin({queryClient});
-  });
-}
-
 const {store, persistor} = getStore();
 const App = () => {
   return (
