@@ -7,15 +7,6 @@ const RemoteDonationDB = new PouchDB('https://api.chikupos.com/ctb-donations', {
   },
 });
 
-// get this mounth starting date and ending date
-const getThisMonth = () => {
-  const date = new Date();
-  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  return {firstDay, lastDay};
-};
-const renge = getThisMonth();
-
 const DonationDB = {
   getDonations: async () => {
     console.log('getDonations');

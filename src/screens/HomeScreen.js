@@ -1,19 +1,27 @@
+import {gql, useQuery} from '@apollo/client';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
-  Alert,
-  Modal,
+  Image,
   Pressable,
   SafeAreaView,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import CTBHeadline from '../components/core/CTBHeadline';
 import CTBText from '../components/core/Text';
-import Graph from '../components/Graph';
-import Header from '../components/Header';
-import MiniCard from '../components/MiniCard';
 import {setLang} from '../redux/localSlice';
+
+const GET_LOCATIONS = gql`
+  query {
+    users {
+      name
+      email
+    }
+  }
+`;
 
 function HomePage({navigation}) {
   const dispatch = useDispatch();
@@ -35,10 +43,41 @@ function HomePage({navigation}) {
   //   isLoading,
   //   error,
   // } = useQuery([DONATIONS_QUERY], DonationDB.getDonations);
-  // //
+
+  const {loading, error, data} = useQuery(GET_LOCATIONS);
+  console.log('data', data, error, loading);
+
   return (
     <>
       <SafeAreaView className="bg-white">
+        <View className="bg-white h-screen items-center box-border">
+          {/* Logo --------------------- */}
+          <View className="p-1 object-contain h-28 w-32 items-center">
+            <Image
+              className="w-full h-full"
+              source={require('../assets/images/home-bg1.png')}
+            />
+          </View>
+          {/* CTB Head Line ------------- */}
+          <CTBHeadline />
+          <View className="w-full px-4 py-2 ">
+            <View className="bg-secondary rounded-[20px] w-full  py-4 items-center">
+              <CTBText className="text-2xl py-2 pb-4 font-semibold text-center bg-secondary  text-white">
+                एक कदम {'\n'} कामयाबी की ओर...
+              </CTBText>
+              <Pressable>
+                <Text className="bg-white text-secondary px-4 py-1 font-bold text-lg rounded-full">
+                  Donate
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+          <View className="flex flex-row justify-center items-center mt-4">
+            <Image source={require('../assets/images/home-bg2.png')} />
+          </View>
+        </View>
+      </SafeAreaView>
+      {/* <SafeAreaView className="bg-white">
         <View className="bg-white h-screen box-border">
           <Header title="Home" />
           <View className="h-full">
@@ -107,7 +146,7 @@ function HomePage({navigation}) {
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </>
   );
 }
