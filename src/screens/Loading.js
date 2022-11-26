@@ -13,7 +13,7 @@ function Loading({navigation}) {
           />
         </View>
         <View>
-          <Text className="text-gray-400">Developed by Chouhan Technology</Text>
+          <Text className="text-red-400">Developed by Chouhan Technology</Text>
         </View>
       </View>
     </SafeAreaView>
