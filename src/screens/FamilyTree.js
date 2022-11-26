@@ -1,44 +1,48 @@
 import React from 'react';
-import {Animated, Image, StyleSheet} from 'react-native';
-import {PinchGestureHandler} from 'react-native-gesture-handler';
-import {useAnimatedGestureHandler} from 'react-native-reanimated';
-
-const AnimatedImage = Animated.createAnimatedComponent(Image);
+import {StyleSheet, Text, View} from 'react-native';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 const FamilyTree = () => {
-  const pinchHandler = useAnimatedGestureHandler({
-    onActive: event => {
-      console.log(event);
-    },
-  });
+  const scale = useSharedValue(1);
+  const savedScale = useSharedValue(1);
+  const pinchGesture = Gesture.Pinch()
+    .onUpdate(e => {
+      const chnage = savedScale.value * e.scale;
+      console.log('chnage', chnage);
+      if (chnage >= 1) {
+        scale.value = chnage;
+      }
+    })
+    .onEnd(() => {
+      savedScale.value = scale.value;
+    });
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{scale: scale.value}],
+  }));
+
+  console.log('render', animatedStyle);
 
   return (
-    <PinchGestureHandler onGestureEvent={pinchHandler}>
-      <AnimatedImage
-        source={{
-          uri: 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=1600',
-        }}
-        style={{flex: 1}}
-      />
-    </PinchGestureHandler>
+    <View style={{flex: 1, borderWidth: 1, padding: 5}}>
+      <GestureDetector gesture={pinchGesture}>
+        <Animated.View style={[styles.box, animatedStyle]}>
+          <Text>fvbikj</Text>
+        </Animated.View>
+      </GestureDetector>
+    </View>
   );
 };
 
 export default FamilyTree;
 
 const styles = StyleSheet.create({
-  container: {
+  box: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'green',
-  },
-  pinchableImage: {
-    width: 200,
-    height: 200,
-    resizeMode: 'contain',
     backgroundColor: 'red',
-    padding: 10,
   },
 });
