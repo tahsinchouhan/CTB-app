@@ -3,7 +3,6 @@ import {StyleSheet, View} from 'react-native';
 import {
   Gesture,
   GestureDetector,
-  NativeViewGestureHandler,
   ScrollView,
 } from 'react-native-gesture-handler';
 import Animated, {
@@ -282,46 +281,28 @@ const FamilyTree = () => {
   console.log('render', animatedStyle);
 
   return (
-    <View style={{flex: 1, borderWidth: 1, padding: 5}}>
-      <GestureDetector gesture={pinchGesture}>
-        <ScrollView
-          contentContainerStyle={{
-            height: 1000,
-            borderWidth: 1,
-          }}
-          ref={scrollvertical}>
-          <ScrollView
-            horizontal={true}
-            ref={scrollhorizontal}
-            contentContainerStyle={[
-              {
-                width: 1000,
-                borderWidth: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              },
-            ]}>
-            <NativeViewGestureHandler
-              ref={nativeGetureRef}
-              simultaneousHandlers={panRef}>
-              <Animated.View
-                style={[
-                  {
-                    borderWidth: 2,
-                    width: 1000,
-                    height: 1000,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  },
-                  animatedStyle,
-                ]}>
-                <CircleNode />
-              </Animated.View>
-            </NativeViewGestureHandler>
+    <GestureDetector gesture={pinchGesture}>
+      <View style={{flex: 1, borderWidth: 1, padding: 5}}>
+        <Animated.View
+          style={[
+            {
+              borderWidth: 2,
+              borderColor: 'red',
+              justifyContent: 'center',
+              alignItems: 'center',
+              overflow: 'hidden',
+            },
+            animatedStyle,
+          ]}>
+          <ScrollView horizontal>
+            <CircleNode />
+            <CircleNode />
+            <CircleNode />
+            <CircleNode />
           </ScrollView>
-        </ScrollView>
-      </GestureDetector>
-    </View>
+        </Animated.View>
+      </View>
+    </GestureDetector>
   );
 };
 
