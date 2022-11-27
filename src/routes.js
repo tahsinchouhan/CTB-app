@@ -1,8 +1,7 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
-import './lang/i18n';
+import { shallowEqual, useSelector } from 'react-redux';
 import DetailsPage from './screens/DetailsPage';
 import DonationScreen from './screens/DonationScreen';
 import FamilyTree from './screens/FamilyTree';
@@ -11,7 +10,6 @@ import Intro from './screens/Intro';
 import Loading from './screens/Loading';
 import LoadingScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import Register from './screens/RegisterScreen';
 import {
   DETAILS_SCREEN,
   DONATION_SCREEN,
@@ -27,8 +25,8 @@ import {
 const Stack = createNativeStackNavigator();
 
 export default function Router() {
-  const {intro} = useSelector(
-    ({local}) => ({intro: local?.intro}),
+  const { intro } = useSelector(
+    ({ local }) => ({ intro: local?.intro }),
     shallowEqual,
   );
 
@@ -36,7 +34,7 @@ export default function Router() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={LOGIN_SCREEN}
-        screenOptions={{headerShown: false}}>
+        screenOptions={{ headerShown: false }}>
         <Stack.Screen name={DETAILS_SCREEN} component={DetailsPage} />
         <Stack.Screen name={HOME_SCREEN} component={HomePage} />
         <Stack.Screen name={GET_STARTED_SCREEN} component={Intro} />
