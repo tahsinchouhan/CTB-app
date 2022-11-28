@@ -8,7 +8,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
-import Svg, { Line, Rect, Text } from 'react-native-svg';
+import FamilyNode from '../Components/FamilyNode';
 
 function FamilyTree() {
   const { width, height } = useWindowDimensions();
@@ -34,7 +34,7 @@ function FamilyTree() {
     Gesture.Native().requireExternalGestureToFail(pinchGesture);
 
   return (
-    <View className="flex flex-1 bg-slate-300 justify-center items-center">
+    <View className="flex flex-1 bg-[f4fdfb] justify-center items-center">
       <GestureDetector gesture={pinchGesture}>
         <GestureDetector gesture={nativeGesture}>
           <ScrollView waitFor={pinchRef}>
@@ -50,7 +50,7 @@ function FamilyTree() {
                   },
                   animatedStyle,
                 ]}>
-                <Tree chidrens={[{}, {}, {}]} />
+                <FamilyNode chidrens={[{ childrens: [{}, {}] }, {}, {}, {}]} />
               </Animated.View>
             </ScrollView>
           </ScrollView>
@@ -61,80 +61,3 @@ function FamilyTree() {
 }
 
 export default FamilyTree;
-
-function Tree({ chidrens }) {
-  const LINE_COLOR = '#dfdfdf';
-  const childrenCount = chidrens.length;
-  const TOTAL_WIDTH = 100;
-  const LINE_X1 = TOTAL_WIDTH / childrenCount / 2;
-  const LINE_X2 = TOTAL_WIDTH - LINE_X1;
-  const VERTICAL_SPACE = 40;
-
-  const SQUARE = {
-    width: VERTICAL_SPACE,
-    height: VERTICAL_SPACE,
-    r: VERTICAL_SPACE,
-  };
-
-  // const RIGHT_GAP_PERCENTAGE = 100 / childrenCount + LEFT_GAP_PERCENTAGE;
-  // const MID_PERCENTAGE = 50;
-  return (
-    <View className="border flex justify-center items-center w-auto ">
-      <Svg
-        width={200}
-        height={200}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <Rect
-          x={`${50 - SQUARE.width / 2}%`}
-          width={SQUARE.width}
-          height={SQUARE.height}
-          rx={SQUARE.r}
-          fill="#D9D9D9"
-        />
-        <Line
-          x1="50%"
-          y1={VERTICAL_SPACE}
-          x2="50%"
-          y2={VERTICAL_SPACE * 2}
-          stroke={LINE_COLOR}
-        />
-        <Line
-          x1={`${LINE_X1}%`}
-          y1={VERTICAL_SPACE}
-          x2={`${LINE_X2}%`}
-          y2={VERTICAL_SPACE}
-          stroke={LINE_COLOR}
-        />
-        {chidrens.map((child, index) => {
-          let x1 = TOTAL_WIDTH / childrenCount / 2;
-          const cofficient = TOTAL_WIDTH / childrenCount;
-          x1 += cofficient * index;
-
-          return (
-            <>
-              <Line
-                x1={`${x1}%`}
-                y1={VERTICAL_SPACE}
-                x2={`${x1}%`}
-                y2={VERTICAL_SPACE + 10}
-                stroke={LINE_COLOR}
-              />
-              <Rect
-                x={`${x1 - SQUARE.width / 2}%`}
-                y={VERTICAL_SPACE * 2 + SQUARE.height / 3}
-                width={SQUARE.width}
-                height={SQUARE.height}
-                rx={SQUARE.r}
-                fill="#D9D9D9"
-              />
-              <Text x={`${x1}%`} y={VERTICAL_SPACE * 4} fontSize="" fill="#000">
-                wows
-              </Text>
-            </>
-          );
-        })}
-      </Svg>
-    </View>
-  );
-}
