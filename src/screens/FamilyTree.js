@@ -1,25 +1,26 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import {
-  Gesture,
-  GestureDetector,
-  ScrollView,
-} from 'react-native-gesture-handler';
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-use-before-define */
+import React, { useRef } from 'react';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import Svg, { Line, Rect, Text } from 'react-native-svg';
 
-const FamilyTree = () => {
+function FamilyTree() {
+  const { width, height } = useWindowDimensions();
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
+  const pinchRef = useRef();
+
   const pinchGesture = Gesture.Pinch()
+    .withRef(pinchRef)
     .onUpdate(e => {
       const chnage = savedScale.value * e.scale;
-      console.log('chnage', chnage);
       scale.value = chnage;
-      if (chnage >= 1) {
-      }
     })
     .onEnd(() => {
       savedScale.value = scale.value;
@@ -29,66 +30,111 @@ const FamilyTree = () => {
     transform: [{ scale: scale.value }],
   }));
 
-  console.log('render', animatedStyle);
+  const nativeGesture =
+    Gesture.Native().requireExternalGestureToFail(pinchGesture);
 
   return (
-    <GestureDetector gesture={pinchGesture}>
-      <View className="flex flex-1 bg-slate-300 p-10">
-        <View className="flex flex-1 bg-white overflow-hidden border border-blue-600 p-10">
-          <ScrollView
-            contentContainerStyle={{
-              borderWidth: 1,
-              borderColor: '#000',
-              padding: 2,
-            }}>
-            <ScrollView
-              contentContainerStyle={{ borderWidth: 1, borderColor: 'red' }}
-              horizontal>
+    <View className="flex flex-1 bg-slate-300 justify-center items-center">
+      <GestureDetector gesture={pinchGesture}>
+        <GestureDetector gesture={nativeGesture}>
+          <ScrollView waitFor={pinchRef}>
+            <ScrollView horizontal waitFor={pinchRef}>
               <Animated.View
                 style={[
                   {
-                    flex: 1,
-                    width: 1000,
-                    height: 1000,
-                    backgroundColor: 'white',
-                    borderWidth: 2,
-                    borderColor: 'green',
+                    width,
+                    height,
                     justifyContent: 'center',
                     alignItems: 'center',
                     overflow: 'hidden',
                   },
                   animatedStyle,
                 ]}>
-                <CircleNode />
-                <CircleNode />
-                <CircleNode />
-                <CircleNode />
+                <Tree chidrens={[{}, {}, {}]} />
               </Animated.View>
             </ScrollView>
           </ScrollView>
-        </View>
-      </View>
-    </GestureDetector>
+        </GestureDetector>
+      </GestureDetector>
+    </View>
   );
-};
+}
 
 export default FamilyTree;
 
-const CircleNode = ({ node, children, siblings, scale }) => {
-  return <View style={[styles.circle]}></View>;
-};
+function Tree({ chidrens }) {
+  const LINE_COLOR = '#dfdfdf';
+  const childrenCount = chidrens.length;
+  const TOTAL_WIDTH = 100;
+  const LINE_X1 = TOTAL_WIDTH / childrenCount / 2;
+  const LINE_X2 = TOTAL_WIDTH - LINE_X1;
+  const VERTICAL_SPACE = 40;
 
-const styles = StyleSheet.create({
-  box: {
-    flex: 1,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  circle: {
-    width: 40,
-    height: 40,
-    backgroundColor: 'black',
-    borderRadius: 50,
-  },
-});
+  const SQUARE = {
+    width: VERTICAL_SPACE,
+    height: VERTICAL_SPACE,
+    r: VERTICAL_SPACE,
+  };
+
+  // const RIGHT_GAP_PERCENTAGE = 100 / childrenCount + LEFT_GAP_PERCENTAGE;
+  // const MID_PERCENTAGE = 50;
+  return (
+    <View className="border flex justify-center items-center w-auto ">
+      <Svg
+        width={200}
+        height={200}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <Rect
+          x={`${50 - SQUARE.width / 2}%`}
+          width={SQUARE.width}
+          height={SQUARE.height}
+          rx={SQUARE.r}
+          fill="#D9D9D9"
+        />
+        <Line
+          x1="50%"
+          y1={VERTICAL_SPACE}
+          x2="50%"
+          y2={VERTICAL_SPACE * 2}
+          stroke={LINE_COLOR}
+        />
+        <Line
+          x1={`${LINE_X1}%`}
+          y1={VERTICAL_SPACE}
+          x2={`${LINE_X2}%`}
+          y2={VERTICAL_SPACE}
+          stroke={LINE_COLOR}
+        />
+        {chidrens.map((child, index) => {
+          let x1 = TOTAL_WIDTH / childrenCount / 2;
+          const cofficient = TOTAL_WIDTH / childrenCount;
+          x1 += cofficient * index;
+
+          return (
+            <>
+              <Line
+                x1={`${x1}%`}
+                y1={VERTICAL_SPACE}
+                x2={`${x1}%`}
+                y2={VERTICAL_SPACE + 10}
+                stroke={LINE_COLOR}
+              />
+              <Rect
+                x={`${x1 - SQUARE.width / 2}%`}
+                y={VERTICAL_SPACE * 2 + SQUARE.height / 3}
+                width={SQUARE.width}
+                height={SQUARE.height}
+                rx={SQUARE.r}
+                fill="#D9D9D9"
+              />
+              <Text x={`${x1}%`} y={VERTICAL_SPACE * 4} fontSize="" fill="#000">
+                wows
+              </Text>
+            </>
+          );
+        })}
+      </Svg>
+    </View>
+  );
+}
