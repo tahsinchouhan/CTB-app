@@ -10,8 +10,11 @@ import HomePage from './screens/HomeScreen';
 import Intro from './screens/Intro';
 import Loading from './screens/Loading';
 import LoadingScreen from './screens/LoginScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import PaymentSucessScreen from './screens/PaymentSucessScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import Register from './screens/RegisterScreen';
+import TransactionsScreen from './screens/TransactionsScreen';
 import {
   DETAILS_SCREEN,
   DONATION_SCREEN,
@@ -20,8 +23,11 @@ import {
   HOME_SCREEN,
   LOADIN_SCREEN,
   LOGIN_SCREEN,
+  PAYMENT_SCREEN,
+  PAYMENT_SUCESS_SCREEN,
   PROFILE_SCREEN,
   REGISTER_SCREEN,
+  TRANSACTIONS_SCREEN,
 } from './utils/constant';
 
 const Stack = createNativeStackNavigator();
@@ -35,7 +41,7 @@ export default function Router() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={LOGIN_SCREEN}
+        initialRouteName={PAYMENT_SUCESS_SCREEN}
         screenOptions={{headerShown: false}}>
         <Stack.Screen name={DETAILS_SCREEN} component={DetailsPage} />
         <Stack.Screen name={HOME_SCREEN} component={HomePage} />
@@ -46,6 +52,16 @@ export default function Router() {
         <Stack.Screen name={FAMILY_TREE_SCREEN} component={FamilyTree} />
         <Stack.Screen name={LOGIN_SCREEN} component={LoadingScreen} />
         <Stack.Screen name={PROFILE_SCREEN} component={ProfileScreen} />
+        <Stack.Screen name={PAYMENT_SCREEN} component={PaymentScreen} />
+        <Stack.Screen
+          name={PAYMENT_SUCESS_SCREEN}
+          component={PaymentSucessScreen}
+        />
+
+        <Stack.Screen
+          name={TRANSACTIONS_SCREEN}
+          component={TransactionsScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

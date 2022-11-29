@@ -2,11 +2,13 @@ import React from 'react';
 import {
   Image,
   ImageBackground,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import {PROFILE_SCREEN} from '../utils/constant';
 
 function LoadingScreen({navigation}) {
   return (
@@ -25,7 +27,7 @@ function LoadingScreen({navigation}) {
           <Text className="text-green-600 text-base  font-extrabold pb-1">
             Welcome To
           </Text>
-          <Text className="text-white font-black text-2xl leading-6">
+          <Text className="text-white font-black text-2xl leading-7">
             CHHATTISGARH MUSLIM TELI BIRADARI FOUNDATION
           </Text>
           <View className="pt-10 ">
@@ -39,12 +41,19 @@ function LoadingScreen({navigation}) {
               placeholderTextColor="#fff"
               className="bg-transparent my-5 font-bold border border-white text-white rounded-xl px-4 font-sans"
             />
-            <View className="flex justify-center items-center bg-[#00A859] h-12 rounded-xl mt-5">
-              <Text className="text-white font-bold text-lg">Login Now</Text>
-            </View>
-            <Text className=" text-green-600 font-bold  p-4 font-sans">
-              Don't Have an Account?{' '}
-              <Text className="text-white font-extrabold">Register Now</Text>
+            <Pressable
+              onPress={() => {
+                navigation.navigate(PROFILE_SCREEN);
+              }}>
+              <View className="flex justify-center items-center bg-[#00A859] h-12 rounded-xl mt-5">
+                <Text className="text-white  text-base font-bold font-sans">
+                  Login Now
+                </Text>
+              </View>
+            </Pressable>
+            <Text className=" text-green-600 font-bold  p-4 font-sans text-sm">
+              Don't Have an Account ?{' '}
+              <Text className="text-white font-extrabold"> Register Now </Text>
             </Text>
           </View>
         </View>
