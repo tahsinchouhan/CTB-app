@@ -1,10 +1,10 @@
-import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import getStore from './redux/store';
 import Router from './routes';
 
@@ -15,9 +15,9 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const {store, persistor} = getStore();
+const { store, persistor } = getStore();
 
-const App = () => {
+function App() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <ApolloProvider client={client}>
@@ -37,7 +37,7 @@ const App = () => {
       </ApolloProvider>
     </GestureHandlerRootView>
   );
-};
+}
 
 export default App;
 

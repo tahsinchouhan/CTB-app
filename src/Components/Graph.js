@@ -1,11 +1,10 @@
+/* eslint-disable react/jsx-no-undef */
 import React from 'react';
-import {Dimensions, View} from 'react-native';
-import {LineChart} from 'react-native-chart-kit';
+import { Dimensions, View } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
-const Graph = () => {
+function Graph() {
   const data = {
     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     datasets: [
@@ -46,6 +45,6 @@ const Graph = () => {
       />
     </View>
   );
-};
+}
 
 export default Graph;

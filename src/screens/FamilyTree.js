@@ -1,328 +1,140 @@
-import React, {useRef} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {
-  Gesture,
-  GestureDetector,
-  ScrollView,
-} from 'react-native-gesture-handler';
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-use-before-define */
+import React, { useRef } from 'react';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import Svg, { Line, Rect, Text } from 'react-native-svg';
 
-var root = {
-  name: '',
-  id: 1,
-  hidden: true,
-  children: [
-    {
-      name: 'Q',
-      id: 16,
-      no_parent: true,
-      imageUrl: {
-        href: {
-          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-        },
-      },
-      nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-      nodeTextStyle: {fontSize: 12},
-    },
-    {
-      name: '',
-      id: 2,
-      no_parent: true,
-      hidden: true,
-      children: [
-        {
-          name: 'J',
-          id: 12,
-          imageUrl: {
-            href: {
-              uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-            },
-          },
-          nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-          nodeTextStyle: {fontSize: 12},
-        },
-        {
-          name: 'L',
-          id: 13,
-          no_parent: true,
-          imageUrl: {
-            href: {
-              uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-            },
-          },
-          nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-          nodeTextStyle: {fontSize: 12},
-        },
-        {
-          name: 'C',
-          id: 3,
-          imageUrl: {
-            href: {
-              uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-            },
-          },
-          nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-          nodeTextStyle: {fontSize: 12},
-        },
-        {
-          name: '',
-          id: 4,
-          hidden: true,
-          no_parent: true,
-          children: [
-            {
-              name: 'D',
-              id: 5,
-              imageUrl: {
-                href: {
-                  uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-                },
-              },
-              nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-              nodeTextStyle: {fontSize: 12},
-            },
-            {
-              name: '',
-              id: 14,
-              hidden: true,
-              no_parent: true,
-              children: [
-                {
-                  name: 'P',
-                  id: 15,
-                  imageUrl: {
-                    href: {
-                      uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-                    },
-                  },
-                  nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-                  nodeTextStyle: {fontSize: 12},
-                },
-              ],
-            },
-            {
-              name: 'E',
-              id: 6,
-              imageUrl: {
-                href: {
-                  uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-                },
-              },
-              nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-              nodeTextStyle: {fontSize: 12},
-            },
-          ],
-        },
-        {
-          name: 'K',
-          id: 11,
-          imageUrl: {
-            href: {
-              uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-            },
-          },
-          nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-          nodeTextStyle: {fontSize: 12},
-        },
-        {
-          name: 'G',
-          id: 7,
-          imageUrl: {
-            href: {
-              uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-            },
-          },
-          nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-          nodeTextStyle: {fontSize: 12},
-          children: [
-            {
-              name: 'H',
-              id: 8,
-              imageUrl: {
-                href: {
-                  uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-                },
-              },
-              nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-              nodeTextStyle: {fontSize: 12},
-            },
-            {
-              name: 'I',
-              id: 9,
-              imageUrl: {
-                href: {
-                  uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-                },
-              },
-              nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-              nodeTextStyle: {fontSize: 12},
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: 'M',
-      id: 10,
-      no_parent: true,
-      imageUrl: {
-        href: {
-          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png',
-        },
-      },
-      nodeImageStyle: {imageHeight: 60, imageWidth: 60, opacity: 1},
-      nodeTextStyle: {fontSize: 12},
-      children: [],
-    },
-    {
-      name: 'anoop',
-      id: 155,
-      no_parent: true,
-      children: [
-        {
-          name: 'H',
-          id: 8,
-        },
-        {
-          name: 'I',
-          id: 9,
-        },
-        {
-          name: 'I',
-          id: 9,
-        },
-        {
-          name: 'I',
-          id: 9,
-        },
-        {
-          name: 'I',
-          id: 9,
-        },
-      ],
-    },
-    {
-      name: 'x',
-      id: 16,
-      no_parent: true,
-    },
-  ],
-};
-
-var siblings = [
-  {
-    source: {
-      id: 3,
-      name: 'C',
-    },
-    target: {
-      id: 11,
-      name: 'K',
-    },
-  },
-  {
-    source: {
-      id: 12,
-      name: 'L',
-    },
-    target: {
-      id: 13,
-      name: 'J',
-    },
-  },
-  {
-    source: {
-      id: 5,
-      name: 'D',
-    },
-    target: {
-      id: 6,
-      name: 'E',
-    },
-  },
-  {
-    source: {
-      id: 16,
-      name: 'Q',
-    },
-    target: {
-      id: 10,
-      name: 'M',
-    },
-  },
-];
-
-const FamilyTree = () => {
-  const panRef = useRef();
-  const nativeGetureRef = useRef();
-  const scrollvertical = useRef();
-  const scrollhorizontal = useRef();
+function FamilyTree() {
+  const { width, height } = useWindowDimensions();
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
+  const pinchRef = useRef();
+
   const pinchGesture = Gesture.Pinch()
+    .withRef(pinchRef)
     .onUpdate(e => {
       const chnage = savedScale.value * e.scale;
-      console.log('chnage', chnage);
       scale.value = chnage;
-      if (chnage >= 1) {
-      }
     })
     .onEnd(() => {
       savedScale.value = scale.value;
     });
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{scale: scale.value}],
+    transform: [{ scale: scale.value }],
   }));
 
-  console.log('render', animatedStyle);
+  const nativeGesture =
+    Gesture.Native().requireExternalGestureToFail(pinchGesture);
 
   return (
-    <GestureDetector gesture={pinchGesture}>
-      <View style={{flex: 1, borderWidth: 1, padding: 5}}>
-        <Animated.View
-          style={[
-            {
-              borderWidth: 2,
-              borderColor: 'red',
-              justifyContent: 'center',
-              alignItems: 'center',
-              overflow: 'hidden',
-            },
-            animatedStyle,
-          ]}>
-          <ScrollView horizontal>
-            <CircleNode />
-            <CircleNode />
-            <CircleNode />
-            <CircleNode />
+    <View className="flex flex-1 bg-slate-300 justify-center items-center">
+      <GestureDetector gesture={pinchGesture}>
+        <GestureDetector gesture={nativeGesture}>
+          <ScrollView waitFor={pinchRef}>
+            <ScrollView horizontal waitFor={pinchRef}>
+              <Animated.View
+                style={[
+                  {
+                    width,
+                    height,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    overflow: 'hidden',
+                  },
+                  animatedStyle,
+                ]}>
+                <Tree chidrens={[{}, {}, {}]} />
+              </Animated.View>
+            </ScrollView>
           </ScrollView>
-        </Animated.View>
-      </View>
-    </GestureDetector>
+        </GestureDetector>
+      </GestureDetector>
+    </View>
   );
-};
+}
 
 export default FamilyTree;
 
-const CircleNode = ({node, children, siblings, scale}) => {
-  return <View style={[styles.circle]}></View>;
-};
+function Tree({ chidrens }) {
+  const LINE_COLOR = '#dfdfdf';
+  const childrenCount = chidrens.length;
+  const TOTAL_WIDTH = 100;
+  const LINE_X1 = TOTAL_WIDTH / childrenCount / 2;
+  const LINE_X2 = TOTAL_WIDTH - LINE_X1;
+  const VERTICAL_SPACE = 40;
 
-const styles = StyleSheet.create({
-  box: {
-    flex: 1,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  circle: {
-    width: 40,
-    height: 40,
-    backgroundColor: 'black',
-    borderRadius: 50,
-  },
-});
+  const SQUARE = {
+    width: VERTICAL_SPACE,
+    height: VERTICAL_SPACE,
+    r: VERTICAL_SPACE,
+  };
+
+  // const RIGHT_GAP_PERCENTAGE = 100 / childrenCount + LEFT_GAP_PERCENTAGE;
+  // const MID_PERCENTAGE = 50;
+  return (
+    <View className="border flex justify-center items-center w-auto ">
+      <Svg
+        width={200}
+        height={200}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <Rect
+          x={`${50 - SQUARE.width / 2}%`}
+          width={SQUARE.width}
+          height={SQUARE.height}
+          rx={SQUARE.r}
+          fill="#D9D9D9"
+        />
+        <Line
+          x1="50%"
+          y1={VERTICAL_SPACE}
+          x2="50%"
+          y2={VERTICAL_SPACE * 2}
+          stroke={LINE_COLOR}
+        />
+        <Line
+          x1={`${LINE_X1}%`}
+          y1={VERTICAL_SPACE}
+          x2={`${LINE_X2}%`}
+          y2={VERTICAL_SPACE}
+          stroke={LINE_COLOR}
+        />
+        {chidrens.map((child, index) => {
+          let x1 = TOTAL_WIDTH / childrenCount / 2;
+          const cofficient = TOTAL_WIDTH / childrenCount;
+          x1 += cofficient * index;
+
+          return (
+            <>
+              <Line
+                x1={`${x1}%`}
+                y1={VERTICAL_SPACE}
+                x2={`${x1}%`}
+                y2={VERTICAL_SPACE + 10}
+                stroke={LINE_COLOR}
+              />
+              <Rect
+                x={`${x1 - SQUARE.width / 2}%`}
+                y={VERTICAL_SPACE * 2 + SQUARE.height / 3}
+                width={SQUARE.width}
+                height={SQUARE.height}
+                rx={SQUARE.r}
+                fill="#D9D9D9"
+              />
+              <Text x={`${x1}%`} y={VERTICAL_SPACE * 4} fontSize="" fill="#000">
+                wows
+              </Text>
+            </>
+          );
+        })}
+      </Svg>
+    </View>
+  );
+}
