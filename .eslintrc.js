@@ -12,6 +12,15 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'react/forbid-prop-types': 'off',
+    'no-underscore-dangle': 'off',
+    'no-use-before-define': 'off',
+    'react/function-component-definition': [
+      1,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
     'prettier/prettier': [
       'error',
       {

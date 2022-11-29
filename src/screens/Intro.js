@@ -1,10 +1,11 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useCallback} from 'react';
-import {Image, View} from 'react-native';
+/* eslint-disable global-require */
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback } from 'react';
+import { Image, View } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import {useDispatch} from 'react-redux';
-import {setIntro} from '../redux/localSlice';
-import {HOME_SCREEN} from '../routes';
+import { useDispatch } from 'react-redux';
+import { setIntro } from '../redux/localSlice';
+import { HOME_SCREEN } from '../utils/constant';
 
 const slides = [
   {
@@ -30,16 +31,17 @@ const slides = [
   },
 ];
 
-const Intro = props => {
+function Intro() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const _renderItem = useCallback(({item}) => {
-    return (
+  const _renderItem = useCallback(
+    ({ item }) => (
       <View className="flex flex-1">
         <Image source={item.image} />
       </View>
-    );
-  }, []);
+    ),
+    [],
+  );
 
   const _onDone = useCallback(() => {
     dispatch(setIntro(false));
@@ -50,6 +52,6 @@ const Intro = props => {
   return (
     <AppIntroSlider renderItem={_renderItem} data={slides} onDone={_onDone} />
   );
-};
+}
 
 export default Intro;
