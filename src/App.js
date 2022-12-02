@@ -5,6 +5,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { AppProvider } from './AppContext';
 import getStore from './redux/store';
 import Router from './routes';
 
@@ -17,27 +18,27 @@ const client = new ApolloClient({
 
 const { store, persistor } = getStore();
 
-function App() {
-  return (
-    <GestureHandlerRootView style={styles.container}>
-      <ApolloProvider client={client}>
-        <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
-            <PersistGate
-              loading={
-                <View className="flex  bg-white flex-1 justify-center items-center">
-                  <ActivityIndicator size="large" color="#0000ff" />
-                </View>
-              }
-              persistor={persistor}>
+const App = () => (
+  <GestureHandlerRootView style={styles.container}>
+    <ApolloProvider client={client}>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <PersistGate
+            loading={
+              <View className="flex  bg-white flex-1 justify-center items-center">
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            }
+            persistor={persistor}>
+            <AppProvider>
               <Router />
-            </PersistGate>
-          </Provider>
-        </QueryClientProvider>
-      </ApolloProvider>
-    </GestureHandlerRootView>
-  );
-}
+            </AppProvider>
+          </PersistGate>
+        </Provider>
+      </QueryClientProvider>
+    </ApolloProvider>
+  </GestureHandlerRootView>
+);
 
 export default App;
 

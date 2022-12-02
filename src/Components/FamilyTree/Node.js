@@ -3,6 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { View } from 'react-native';
+import { AppContext } from '../../AppContext';
 import NodeAvatar from '../core/NodeAvatar';
 
 const LINE_COLOR = '#C4C4C4';
@@ -26,20 +27,22 @@ const SQUARE = {
 };
 
 const Node = ({ node, top }) => {
-  const { name, childrens = [] } = node;
+  const { _id, childrens = [] } = node;
   const [stateChilds, setStateChilds] = React.useState(childrens);
+  const { userId } = React.useContext(AppContext);
   const hasChildren = stateChilds.length > 0;
+  const isNodeOwner = userId === _id;
 
   const addChilds = () => {
-    setStateChilds([...stateChilds, { name: 'new', childrens: [] }]);
+    setStateChilds([{ name: 'new', childrens: [] }, ...stateChilds]);
   };
 
   return (
-    <View className="flex justify-center items-center ">
+    <View className="flex justify-center items-center">
       {!top && (
         <View className="flex justify-center items-center h-5 border border-slate-400 " />
       )}
-      <NodeAvatar name={name} addChilds={addChilds} />
+      <NodeAvatar node={node} addChilds={addChilds} />
       {hasChildren && (
         <View className="flex justify-center items-center h-5 border border-slate-400 " />
       )}
@@ -48,7 +51,7 @@ const Node = ({ node, top }) => {
           hasChildren && stateChilds.length > 1
             ? 'border-t-2 border-slate-400'
             : ''
-        } items-start  justify-evenly`}>
+        } items-start  justify-evenly mr-5 ml-5`}>
         {stateChilds.map((child, index) => (
           <ChildrenNode key={index} node={child} />
         ))}
@@ -58,18 +61,34 @@ const Node = ({ node, top }) => {
 };
 
 const ChildrenNode = ({ node }) => {
-  const { name, childrens = [] } = node;
+  const { childrens = [] } = node;
   const [stateChilds, setStateChilds] = React.useState(childrens);
+  const { userId } = React.useContext(AppContext);
   const hasChildren = stateChilds.length > 0;
 
   const addChilds = () => {
-    setStateChilds([...stateChilds, { name: 'new', childrens: [] }]);
+    setStateChilds([{ name: 'new', childrens: [] }, ...stateChilds]);
+  };
+
+  const makeChildEditable = () => {
+    const childs = stateChilds.map(child => ({ ...child, editable: true }));
+    setStateChilds(childs);
+  };
+
+  const removeChildEditable = () => {
+    const childs = stateChilds.map(child => ({ ...child, editable: false }));
+    setStateChilds(childs);
   };
 
   return (
-    <View className="flex justify-center items-center ml-5 mr-5">
+    <View className="flex justify-center items-center">
       <View className="flex justify-center items-center h-5 border border-slate-400" />
-      <NodeAvatar name={name} addChilds={addChilds} />
+      <NodeAvatar
+        node={node}
+        addChilds={addChilds}
+        makeChildEditable={makeChildEditable}
+        removeChildEditable={removeChildEditable}
+      />
       {hasChildren && (
         <View className="flex h-5  justify-center items-center border border-slate-400" />
       )}
@@ -78,7 +97,7 @@ const ChildrenNode = ({ node }) => {
           hasChildren && stateChilds.length > 1
             ? 'border-t-2 border-slate-400'
             : ''
-        } items-start  justify-between relative`}>
+        } items-start  justify-between mr-5 ml-5 `}>
         {stateChilds.map((child, index) => (
           <Node key={index} node={child} />
         ))}

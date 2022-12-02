@@ -12,36 +12,117 @@ import FamilyTreeContext from '../Components/FamilyTree/FamilyTreeContext';
 import Node from '../Components/FamilyTree/Node';
 
 const NODE = {
+  _id: '1',
   name: 'Rashid',
+  gender: 'male',
   childrens: [
     {
+      _id: '11',
       name: 'Irfan',
+      gender: 'male',
     },
     {
+      _id: '12',
       name: 'Nagma',
+      gender: 'female',
       childrens: [
-        { name: 'Raza', childrens: [{ name: 'Raza' }, { name: 'Raza' }] },
-        { name: 'Umair', childrens: [] },
-        { name: 'Ayesha', childrens: [] },
+        {
+          _id: '121',
+          name: 'Raza',
+          gender: 'male',
+          childrens: [
+            {
+              _id: '1211',
+              name: 'Raza',
+              gender: 'male',
+            },
+            {
+              _id: '1212',
+              name: 'Raza',
+              gender: 'male',
+            },
+          ],
+        },
+        {
+          _id: '122',
+          name: 'Umair',
+          gender: 'male',
+          childrens: [],
+        },
+        {
+          _id: '123',
+          name: 'Ayesha',
+          gender: 'female',
+          childrens: [],
+        },
       ],
     },
     {
+      _id: '13',
       name: 'Nafisa',
+      gender: 'female',
       childrens: [
-        { name: 'Alina', childrens: [] },
-        { name: 'aliza', childrens: [] },
-        { name: 'Ayesha', childrens: [] },
-        { name: 'Ayesha', childrens: [] },
-        { name: 'Ayesha', childrens: [] },
-        { name: 'Ayesha', childrens: [] },
-        { name: 'Ayesha', childrens: [] },
+        {
+          _id: '131',
+          name: 'Alina',
+          gender: 'female',
+          childrens: [],
+        },
+        {
+          _id: '132',
+          name: 'aliza',
+          gender: 'female',
+          childrens: [],
+        },
+        {
+          _id: '133',
+          name: 'Ayesha',
+          gender: 'female',
+          childrens: [],
+        },
+        {
+          _id: '134',
+          name: 'Ayesha',
+          gender: 'female',
+          childrens: [],
+        },
+        {
+          _id: '135',
+          name: 'Ayesha',
+          gender: 'female',
+          childrens: [],
+        },
+        {
+          _id: '136',
+          name: 'Ayesha',
+          childrens: [],
+          gender: 'female',
+        },
+        {
+          _id: '137',
+          name: 'Ayesha',
+          gender: 'female',
+          childrens: [],
+        },
       ],
     },
     {
+      _id: '14',
       name: 'Rizwan',
+      gender: 'male',
       childrens: [
-        { name: 'Ayesha', childrens: [] },
-        { name: 'filza', childrens: [] },
+        {
+          _id: '141',
+          name: 'Ayesha',
+          childrens: [],
+          gender: 'female',
+        },
+        {
+          _id: '142',
+          name: 'filza',
+          childrens: [],
+          gender: 'female',
+        },
       ],
     },
   ],
