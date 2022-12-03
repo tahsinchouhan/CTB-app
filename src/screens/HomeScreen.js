@@ -1,12 +1,17 @@
 import {gql, useQuery} from '@apollo/client';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-// import CTBHeadline from '../components/core/CTBHeadline';
-// import CTBText from '../components/core/Text';
 import {setLang} from '../redux/localSlice';
-import {FAMILY_TREE_SCREEN} from '../utils/constant';
+import {PROFILE_SCREEN} from '../utils/constant';
 
 const GET_LOCATIONS = gql`
   query {
@@ -37,26 +42,34 @@ function HomePage({navigation}) {
 
   return (
     <>
-      <SafeAreaView className=" h-screen bg-green-900 flex items-center justify-evenly">
-        <View className=" flex items-center justify-center">
-          <Text className="text-2xl font-bold text-white pb-1 ">
-            CHHATTISGARH MUSLIM
-          </Text>
-          <Text className="text-2xl font-bold text-white pb-1">
-            TELI BIRADARI FOUNDATION
-          </Text>
-          <Text className="text-xl font-medium text-white ">
-            HEALTH, EDUCATION, EMPLOYMENT
-          </Text>
-        </View>
-        <Pressable
-          onPress={() => {
-            navigation.navigate(FAMILY_TREE_SCREEN);
-          }}>
-          <View className="bg-primary w-[300px] h-[60px] flex justify-center rounded-2xl">
-            <Text className="text-white text-xl text-center">Get Started</Text>
+      <SafeAreaView className="h-full bg-white flex pt-20 justify-between">
+        <View className="py-6 flex justify-between">
+          <View className=" flex  items-center justify-center">
+            <Text className="text-2xl font-semibold text-green-900 pb-1 ">
+              CHHATTISGARH MUSLIM
+            </Text>
+            <Text className="text-2xl font-semibold text-green-900 pb-1">
+              TELI BIRADARI FOUNDATION
+            </Text>
+            <Text className="text-xl font-medium text-black ">
+              HEALTH, EDUCATION, EMPLOYMENT
+            </Text>
           </View>
-        </Pressable>
+          <Pressable
+            onPress={() => {
+              navigation.navigate(PROFILE_SCREEN);
+            }}>
+            <View className="flex justify-center items-center bg-[#00A859] h-11 rounded-2xl w-[80%] mx-auto mt-5">
+              <Text className="text-white  text-base font-bold font-sans">
+                Donate
+              </Text>
+            </View>
+          </Pressable>
+        </View>
+
+        <View className="flex justify-end ">
+          <Image source={require('../assets/images/home.png')} className="" />
+        </View>
       </SafeAreaView>
     </>
   );

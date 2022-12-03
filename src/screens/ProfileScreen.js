@@ -1,11 +1,39 @@
 import React from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {Image, SafeAreaView, Text, View} from 'react-native';
+import {PenSVG} from '../assets/svg/SVG';
+import ProfileCard from '../Components/ProfileCard';
 
 function ProfileScreen({navigation}) {
   return (
-    <SafeAreaView className="bg-white">
-      <View className="">
-        <Text className="text-xl font-bold font-sans">Profile</Text>
+    <SafeAreaView className="bg-[#F9F9F9]">
+      <View className="h-screen p-5">
+        <Text className="text-xl font-bold font-sans text-black">Profile</Text>
+        <View className="h-[90px] p-3 my-4 bg-primary flex flex-row justify-between items-center rounded-md">
+          <View className="flex flex-row">
+            <Image
+              source={require('../assets/images/logo2.png')}
+              className="rounded-full w-16 h-16"
+            />
+            <View className="pl-2 flex justify-center">
+              <Text className="text-white text-sm font-bold ">
+                Tahsin Chouham
+              </Text>
+              <Text className="text-[12px] text-[#D7D7D7]">
+                Tahsinchouhan2000@gmail.com
+              </Text>
+            </View>
+          </View>
+          <View className="">
+            <PenSVG />
+          </View>
+        </View>
+        <View className="mt-10">
+          <ProfileCard />
+          <ProfileCard />
+          <ProfileCard />
+          <ProfileCard />
+          <ProfileCard />
+        </View>
       </View>
     </SafeAreaView>
   );
