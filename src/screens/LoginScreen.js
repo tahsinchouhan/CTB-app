@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   ImageBackground,
@@ -8,59 +9,57 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {PROFILE_SCREEN} from '../utils/constant';
+import { PROFILE_SCREEN } from '../utils/constant';
+import LoginBGPNG from '../assets/images/login-bg.png';
+import LOGO2 from '../assets/images/logo2.png';
 
-function LoadingScreen({navigation}) {
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../assets/images/login-bg.png')}
-        resizeMode="cover"
-        style={styles.image}>
-        <View className="flex" style={styles.ImageBackground}>
-          <Image
-            source={require('../assets/images/logo2.png')}
-            style={styles.logo}
+const LoadingScreen = ({ navigation }) => (
+  <View style={styles.container}>
+    <ImageBackground
+      source={LoginBGPNG}
+      resizeMode="cover"
+      style={styles.image}>
+      <View className="flex" style={styles.ImageBackground}>
+        <Image source={LOGO2} style={styles.logo} />
+      </View>
+      <View style={styles.ContentBackground}>
+        <Text className="text-green-600 text-base  font-extrabold pb-1">
+          Welcome To
+        </Text>
+        <Text className="text-white font-black text-2xl leading-7">
+          CHHATTISGARH MUSLIM TELI BIRADARI FOUNDATION
+        </Text>
+        <View className="pt-10 ">
+          <TextInput
+            placeholder="Email ID"
+            placeholderTextColor="#fff"
+            className="bg-transparent font-bold border border-white text-white rounded-xl  px-4 font-sans"
           />
-        </View>
-        <View style={styles.ContentBackground}>
-          <Text className="text-green-600 text-base  font-extrabold pb-1">
-            Welcome To
+          <TextInput
+            placeholder="Password"
+            placeholderTextColor="#fff"
+            className="bg-transparent my-5 font-bold border border-white text-white rounded-xl px-4 font-sans"
+          />
+          <Pressable
+            onPress={() => {
+              navigation.navigate(PROFILE_SCREEN);
+            }}>
+            <View className="flex justify-center items-center bg-[#00A859] h-12 rounded-xl mt-5">
+              <Text className="text-white  text-base font-bold font-sans">
+                Login Now
+              </Text>
+            </View>
+          </Pressable>
+          <Text className=" text-green-600 font-bold  p-4 font-sans text-sm">
+            Don&apos;t Have an Account ?{' '}
+            <Text className="text-white font-extrabold"> Register Now </Text>
           </Text>
-          <Text className="text-white font-black text-2xl leading-7">
-            CHHATTISGARH MUSLIM TELI BIRADARI FOUNDATION
-          </Text>
-          <View className="pt-10 ">
-            <TextInput
-              placeholder="Email ID"
-              placeholderTextColor="#fff"
-              className="bg-transparent font-bold border border-white text-white rounded-xl  px-4 font-sans"
-            />
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor="#fff"
-              className="bg-transparent my-5 font-bold border border-white text-white rounded-xl px-4 font-sans"
-            />
-            <Pressable
-              onPress={() => {
-                navigation.navigate(PROFILE_SCREEN);
-              }}>
-              <View className="flex justify-center items-center bg-[#00A859] h-12 rounded-xl mt-5">
-                <Text className="text-white  text-base font-bold font-sans">
-                  Login Now
-                </Text>
-              </View>
-            </Pressable>
-            <Text className=" text-green-600 font-bold  p-4 font-sans text-sm">
-              Don't Have an Account ?{' '}
-              <Text className="text-white font-extrabold"> Register Now </Text>
-            </Text>
-          </View>
         </View>
-      </ImageBackground>
-    </View>
-  );
-}
+      </View>
+    </ImageBackground>
+  </View>
+);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -91,3 +90,9 @@ const styles = StyleSheet.create({
 });
 
 export default LoadingScreen;
+
+LoadingScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};

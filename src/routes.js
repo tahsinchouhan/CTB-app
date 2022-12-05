@@ -23,7 +23,7 @@ import {
   PAYMENT_SCREEN,
   PAYMENT_SUCESS_SCREEN,
   PROFILE_SCREEN,
-  TRANSACTIONS_SCREEN
+  TRANSACTIONS_SCREEN,
 } from './utils/constant';
 
 const Stack = createNativeStackNavigator();
@@ -34,30 +34,27 @@ const Routes = () => (
   //   shallowEqual,
   // );
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={FAMILY_TREE_SCREEN}
-        screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={DETAILS_SCREEN} component={DetailsPage} />
-        <Stack.Screen name={HOME_SCREEN} component={HomePage} />
-        <Stack.Screen name={GET_STARTED_SCREEN} component={Intro} />
-        <Stack.Screen name={LOADIN_SCREEN} component={Loading} />
-        <Stack.Screen name={DONATION_SCREEN} component={DonationScreen} />
-        <Stack.Screen name={FAMILY_TREE_SCREEN} component={FamilyTree} />
-        <Stack.Screen name={LOGIN_SCREEN} component={LoadingScreen} />
-        <Stack.Screen name={PROFILE_SCREEN} component={ProfileScreen} />
-        <Stack.Screen name={PAYMENT_SCREEN} component={PaymentScreen} />
-        <Stack.Screen
-          name={PAYMENT_SUCESS_SCREEN}
-          component={PaymentSucessScreen}
-        />
+  <NavigationContainer>
+    <Stack.Navigator
+      initialRouteName={LOGIN_SCREEN}
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={DETAILS_SCREEN} component={DetailsPage} />
+      <Stack.Screen name={HOME_SCREEN} component={HomePage} />
+      <Stack.Screen name={GET_STARTED_SCREEN} component={Intro} />
+      <Stack.Screen name={LOADIN_SCREEN} component={Loading} />
+      <Stack.Screen name={DONATION_SCREEN} component={DonationScreen} />
+      <Stack.Screen name={FAMILY_TREE_SCREEN} component={FamilyTree} />
+      <Stack.Screen name={LOGIN_SCREEN} component={LoadingScreen} />
+      <Stack.Screen name={PROFILE_SCREEN} component={ProfileScreen} />
+      <Stack.Screen name={PAYMENT_SCREEN} component={PaymentScreen} />
+      <Stack.Screen
+        name={PAYMENT_SUCESS_SCREEN}
+        component={PaymentSucessScreen}
+      />
 
-        <Stack.Screen
-          name={TRANSACTIONS_SCREEN}
-          component={TransactionsScreen}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+      <Stack.Screen name={TRANSACTIONS_SCREEN} component={TransactionsScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
+
+export default Routes;
