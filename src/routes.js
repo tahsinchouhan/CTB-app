@@ -1,6 +1,10 @@
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  createNavigationContainerRef,
+  NavigationContainer,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import DetailsPage from './screens/DetailsPage';
 import DonationScreen from './screens/DonationScreen';
 import FamilyTree from './screens/FamilyTree';
@@ -28,33 +32,50 @@ import {
 
 const Stack = createNativeStackNavigator();
 
-const Routes = () => (
-  // const { intro } = useSelector(
-  //   ({ local }) => ({ intro: local?.intro }),
-  //   shallowEqual,
-  // );
+export const navigationRef = createNavigationContainerRef();
 
-  <NavigationContainer>
-    <Stack.Navigator
-      initialRouteName={LOGIN_SCREEN}
-      screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={DETAILS_SCREEN} component={DetailsPage} />
-      <Stack.Screen name={HOME_SCREEN} component={HomePage} />
-      <Stack.Screen name={GET_STARTED_SCREEN} component={Intro} />
-      <Stack.Screen name={LOADIN_SCREEN} component={Loading} />
-      <Stack.Screen name={DONATION_SCREEN} component={DonationScreen} />
-      <Stack.Screen name={FAMILY_TREE_SCREEN} component={FamilyTree} />
-      <Stack.Screen name={LOGIN_SCREEN} component={LoadingScreen} />
-      <Stack.Screen name={PROFILE_SCREEN} component={ProfileScreen} />
-      <Stack.Screen name={PAYMENT_SCREEN} component={PaymentScreen} />
-      <Stack.Screen
-        name={PAYMENT_SUCESS_SCREEN}
-        component={PaymentSucessScreen}
-      />
+const Routes = () => {
+  const { token } = useSelector(
+    ({ local }) => ({ token: local?.token }),
+    shallowEqual,
+  );
 
-      <Stack.Screen name={TRANSACTIONS_SCREEN} component={TransactionsScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+  useEffect(() => {
+    if (token === undefined || token === null) {
+      console.log('token', token);
+      console.log('navigationRef.isReady()', navigationRef.isReady());
+      if (navigationRef.isReady()) {
+        navigationRef.navigate(LOGIN_SCREEN);
+      }
+    }
+  }, [token]);
+
+  return (
+    <NavigationContainer ref={navigationRef}>
+      <Stack.Navigator
+        initialRouteName={token ? HOME_SCREEN : LOGIN_SCREEN}
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={LOGIN_SCREEN} component={LoadingScreen} />
+        <Stack.Screen name={DETAILS_SCREEN} component={DetailsPage} />
+        <Stack.Screen name={HOME_SCREEN} component={HomePage} />
+        <Stack.Screen name={GET_STARTED_SCREEN} component={Intro} />
+        <Stack.Screen name={LOADIN_SCREEN} component={Loading} />
+        <Stack.Screen name={DONATION_SCREEN} component={DonationScreen} />
+        <Stack.Screen name={FAMILY_TREE_SCREEN} component={FamilyTree} />
+        <Stack.Screen name={PROFILE_SCREEN} component={ProfileScreen} />
+        <Stack.Screen name={PAYMENT_SCREEN} component={PaymentScreen} />
+        <Stack.Screen
+          name={PAYMENT_SUCESS_SCREEN}
+          component={PaymentSucessScreen}
+        />
+
+        <Stack.Screen
+          name={TRANSACTIONS_SCREEN}
+          component={TransactionsScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default Routes;

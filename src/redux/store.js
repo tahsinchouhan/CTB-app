@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {configureStore} from '@reduxjs/toolkit';
-import {createLogger} from 'redux-logger';
-import {persistReducer, persistStore} from 'redux-persist';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { createLogger } from 'redux-logger';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistReducer, persistStore } from 'redux-persist';
 
 import localSlice from './localSlice';
 
@@ -16,13 +17,17 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-const persistedReducer = persistReducer(persistConfig, localSlice);
+const rootReducer = combineReducers({
+  local: localSlice,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export default () => {
-  let store = configureStore({
+  const store = configureStore({
     reducer: persistedReducer,
     middleware: enhancers,
   });
-  let persistor = persistStore(store);
-  return {store, persistor};
+  const persistor = persistStore(store);
+  return { store, persistor };
 };

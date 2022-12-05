@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/Poppins/FontsFree-Net-IntroRustG-Base2Line.ttf",
+      "sha1": "b89339a7279661ce601cc74b11853d7a559b4dcf"
+    },
+    {
       "path": "src/assets/fonts/Poppins/OFL.txt",
       "sha1": "8d6c34b70e3d638c82d7b5aba3f847f7d6d2c831"
     },

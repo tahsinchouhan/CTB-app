@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line import/no-extraneous-dependencies
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
@@ -13,6 +14,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+      rust: ['IntroRustG-Base2Line'],
       // serif: ['Poppins', 'sans-serif'],
       // mono: ['Poppins', 'sans-serif'],
       // display: ['Poppins', 'sans-serif'],

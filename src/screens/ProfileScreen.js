@@ -1,9 +1,12 @@
 import React from 'react';
-import {Image, SafeAreaView, Text, View} from 'react-native';
-import {PenSVG} from '../assets/svg/SVG';
+import { Image, Pressable, SafeAreaView, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { PenSVG } from '../assets/svg/SVG';
 import ProfileCard from '../Components/ProfileCard';
+import { setToken } from '../redux/localSlice';
 
-function ProfileScreen({navigation}) {
+function ProfileScreen({ navigation }) {
+  const dispatch = useDispatch();
   return (
     <SafeAreaView className="bg-[#F9F9F9]">
       <View className="h-screen p-5">
@@ -27,6 +30,12 @@ function ProfileScreen({navigation}) {
             <PenSVG />
           </View>
         </View>
+        <Pressable
+          onPress={() => {
+            dispatch(setToken(null));
+          }}>
+          <Text>Logout</Text>
+        </Pressable>
         <View className="mt-10">
           <ProfileCard />
           <ProfileCard />

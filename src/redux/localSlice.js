@@ -1,13 +1,16 @@
-import {createSlice} from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   intro: true,
   langPicked: false,
   lang: 'en',
+  token: null,
+  userId: null,
 };
 
 export const counterSlice = createSlice({
-  name: 'counter',
+  name: 'local',
   initialState,
   reducers: {
     setIntro: (state, action) => {
@@ -20,9 +23,14 @@ export const counterSlice = createSlice({
       state.lang = action.payload;
       state.langPicked = true;
     },
+    setTokenAndId: (state, action) => {
+      state.token = action?.payload?.token;
+      state.userId = action?.payload?.userId;
+    },
   },
 });
 
-export const {setIntro, setLangPicked, setLang} = counterSlice.actions;
+export const { setIntro, setLangPicked, setLang, setTokenAndId } =
+  counterSlice.actions;
 
 export default counterSlice.reducer;

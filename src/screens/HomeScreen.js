@@ -1,6 +1,6 @@
-import {gql, useQuery} from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {
   Image,
   Pressable,
@@ -9,9 +9,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {setLang} from '../redux/localSlice';
-import {PROFILE_SCREEN} from '../utils/constant';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { setLang, setToken, setTokenAndId } from '../redux/localSlice';
+import { PROFILE_SCREEN } from '../utils/constant';
 
 const GET_LOCATIONS = gql`
   query {
@@ -22,58 +22,63 @@ const GET_LOCATIONS = gql`
   }
 `;
 
-function HomePage({navigation}) {
+const HomePage = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {t, i18n} = useTranslation();
-  const {langPicked} = useSelector(
-    ({local}) => ({
-      langPicked: true,
-    }),
-    shallowEqual,
-  );
+  // const { t, i18n } = useTranslation();
+  // const { langPicked } = useSelector(
+  //   ({ local }) => ({
+  //     langPicked: true,
+  //   }),
+  //   shallowEqual,
+  // );
 
-  const pickLang = lang => {
-    i18n.changeLanguage(lang);
-    dispatch(setLang(lang));
-  };
+  // const pickLang = lang => {
+  //   i18n.changeLanguage(lang);
+  //   dispatch(setLang(lang));
+  // };
 
-  const {loading, error, data} = useQuery(GET_LOCATIONS);
+  const { loading, error, data } = useQuery(GET_LOCATIONS);
   console.log('data', data, error, loading);
 
   return (
-    <>
-      <SafeAreaView className="h-full bg-white flex pt-20 justify-between">
-        <View className="py-6 flex justify-between">
-          <View className=" flex  items-center justify-center">
-            <Text className="text-2xl font-semibold text-green-900 pb-1 ">
-              CHHATTISGARH MUSLIM
-            </Text>
-            <Text className="text-2xl font-semibold text-green-900 pb-1">
-              TELI BIRADARI FOUNDATION
-            </Text>
-            <Text className="text-xl font-medium text-black ">
-              HEALTH, EDUCATION, EMPLOYMENT
+    <SafeAreaView className="h-full bg-white flex pt-20 justify-between">
+      <View className="py-6 flex justify-between">
+        <View className=" flex  items-center justify-center">
+          <Text className="text-2xl font-semibold text-green-900 pb-1 ">
+            CHHATTISGARH MUSLIM wowp
+          </Text>
+          <Text className="text-2xl font-semibold text-green-900 pb-1">
+            TELI BIRADARI FOUNDATION
+          </Text>
+          <Text className="text-xl font-medium text-black ">
+            HEALTH, EDUCATION, EMPLOYMENT
+          </Text>
+        </View>
+        <Pressable
+          className="flex justify-center items-center bg-[#00A859] h-11 rounded-2xl w-[80%] mx-auto mt-5"
+          onPress={() => {
+            dispatch(setTokenAndId({ token: null, userId: null }));
+          }}>
+          <Text>Logout</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate(PROFILE_SCREEN);
+          }}>
+          <View className="flex justify-center items-center bg-[#00A859] h-11 rounded-2xl w-[80%] mx-auto mt-5">
+            <Text className="text-white  text-base font-bold font-sans">
+              Donate
             </Text>
           </View>
-          <Pressable
-            onPress={() => {
-              navigation.navigate(PROFILE_SCREEN);
-            }}>
-            <View className="flex justify-center items-center bg-[#00A859] h-11 rounded-2xl w-[80%] mx-auto mt-5">
-              <Text className="text-white  text-base font-bold font-sans">
-                Donate
-              </Text>
-            </View>
-          </Pressable>
-        </View>
+        </Pressable>
+      </View>
 
-        <View className="flex justify-end ">
-          <Image source={require('../assets/images/home.png')} className="" />
-        </View>
-      </SafeAreaView>
-    </>
+      <View className="flex justify-end ">
+        <Image source={require('../assets/images/home.png')} className="" />
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
 export default HomePage;
 
