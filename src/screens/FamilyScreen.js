@@ -9,30 +9,17 @@ import {
   View,
 } from 'react-native';
 import { useQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
 import { GET_ALL_FAMILIES } from '../apollo/quaries';
 import ArrowRightIcon from '../Components/SVG/ArrowRightIcon';
-import { useNavigation } from '@react-navigation/native';
 import { FAMILY_TREE_SCREEN } from '../utils/constant';
-
-const constacts = [
-  {
-    name: 'Tahsin Chouham',
-    email: 'tahsin@gmail.com',
-    image: 'https://randomuser.me',
-  },
-  {
-    name: 'Tahsin Chouham',
-    email: 'wow@gmail.com',
-    image: 'https://randomuser.me',
-  },
-];
 
 const FamilyScreen = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
 
   const renderItem = ({ item }) => <FamilyListItem item={item} />;
 
-  const { data, error, loading } = useQuery(GET_ALL_FAMILIES);
+  const { data, error, loading, refetch } = useQuery(GET_ALL_FAMILIES);
 
   const families = data?.getAllFamilies || [];
 
@@ -59,10 +46,14 @@ const FamilyScreen = () => {
         className="flex-1"
         data={families}
         renderItem={renderItem}
+        refreshing={loading}
+        onRefresh={refetch}
         // when you have no family
         ListEmptyComponent={
           <View className="flex-1 justify-center items-center mt-20">
-            <Text className="text-2xl font-bold">No Family</Text>
+            <Text className="text-2xl font-bold">
+              {error ? error.message : 'No Family'}
+            </Text>
           </View>
         }
         keyExtractor={item => item.email}

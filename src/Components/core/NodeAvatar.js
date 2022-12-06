@@ -6,10 +6,12 @@ import { AppContext } from '../../AppContext';
 import NodeModal from '../FamilyTree/NodeModal';
 
 const NodeAvatar = ({ node }) => {
-  const { name, gender, _id } = node;
+  const { name, gender, email } = node;
   const [modalVisible, setModalVisible] = useState(false);
   const { userId } = React.useContext(AppContext);
-  const isNodeOwner = userId === _id;
+  console.log('email', email);
+  const isNodeOwner = userId === email;
+  const avatarName = name?.split(' ')[0].charAt(0)?.toUpperCase();
 
   const getRightNode = () => {
     if (isNodeOwner) {
@@ -19,7 +21,7 @@ const NodeAvatar = ({ node }) => {
             colors={['#3c0ba9', '#930fa8']}
             className="flex w-20 h-20 rounded-full justify-center items-center font-semibold m-2">
             <Text className="text-white font-semibold text-3xl uppercase">
-              {name[0]}
+              {avatarName}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -33,7 +35,7 @@ const NodeAvatar = ({ node }) => {
             colors={['#0a66c2', '#0a66c2']}
             className="flex w-20 h-20 rounded-full justify-center items-center font-semibold m-2">
             <Text className="text-white font-semibold text-3xl uppercase">
-              {name[0]}
+              {avatarName}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -47,7 +49,7 @@ const NodeAvatar = ({ node }) => {
             colors={['#f76258', '#f75561', '#f52877']}
             className="flex w-20 h-20 rounded-full justify-center items-center font-semibold m-2 ">
             <Text className="text-white font-semibold text-3xl uppercase">
-              {name[0]}
+              {avatarName}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -57,7 +59,9 @@ const NodeAvatar = ({ node }) => {
     return (
       <TouchableOpacity>
         <View className="flex w-20 h-20 rounded-full bg-orange-400 justify-center items-center font-semibold m-2">
-          <Text>{name[0]}</Text>
+          <Text className="text-white font-semibold text-3xl uppercase">
+            {avatarName}
+          </Text>
         </View>
       </TouchableOpacity>
     );

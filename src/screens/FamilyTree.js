@@ -4,7 +4,13 @@
 import { useQuery } from '@apollo/client';
 import { useRoute } from '@react-navigation/native';
 import React, { useMemo, useRef } from 'react';
-import { Dimensions, ScrollView, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
@@ -13,140 +19,6 @@ import Animated, {
 import { GET_FAMILY_TREE } from '../apollo/quaries';
 import FamilyTreeContext from '../Components/FamilyTree/FamilyTreeContext';
 import Node from '../Components/FamilyTree/Node';
-
-const NODE = {
-  _id: '1',
-  name: 'Rashid',
-  gender: 'male',
-  childrens: [
-    {
-      _id: '11',
-      name: 'Irfan',
-      gender: 'male',
-    },
-    {
-      _id: '12',
-      name: 'Nagma',
-      gender: 'female',
-      childrens: [
-        {
-          _id: '121',
-          name: 'Raza',
-          gender: 'male',
-          childrens: [
-            {
-              _id: '1211',
-              name: 'Raza',
-              gender: 'male',
-            },
-            {
-              _id: '1212',
-              name: 'Raza',
-              gender: 'male',
-            },
-          ],
-        },
-        {
-          _id: '122',
-          name: 'Umair',
-          gender: 'male',
-          childrens: [],
-        },
-        {
-          _id: '123',
-          name: 'Ayesha',
-          gender: 'female',
-          childrens: [],
-        },
-      ],
-    },
-    {
-      _id: '13',
-      name: 'Nafisa',
-      gender: 'female',
-      childrens: [
-        {
-          _id: '131',
-          name: 'Alina',
-          gender: 'female',
-          childrens: [],
-        },
-        {
-          _id: '132',
-          name: 'aliza',
-          gender: 'female',
-          childrens: [],
-        },
-        {
-          _id: '133',
-          name: 'Ayesha',
-          gender: 'female',
-          childrens: [],
-        },
-        {
-          _id: '134',
-          name: 'Ayesha',
-          gender: 'female',
-          childrens: [],
-        },
-        {
-          _id: '135',
-          name: 'Ayesha',
-          gender: 'female',
-          childrens: [],
-        },
-        {
-          _id: '136',
-          name: 'Ayesha',
-          childrens: [],
-          gender: 'female',
-        },
-        {
-          _id: '137',
-          name: 'Ayesha',
-          gender: 'female',
-          childrens: [],
-        },
-      ],
-    },
-    {
-      _id: '14',
-      name: 'Rizwan',
-      gender: 'male',
-      childrens: [
-        {
-          _id: '141',
-          name: 'Ayesha',
-          childrens: [],
-          gender: 'female',
-        },
-        {
-          _id: '142',
-          name: 'filza',
-          childrens: [],
-          gender: 'female',
-        },
-      ],
-    },
-  ],
-};
-
-// let totalNodes = 0;
-// const countChidlrens = arr => {
-//   totalNodes += arr.length;
-//   arr.forEach(item => {
-//     const itemChildrens = item.childrens || [];
-//     if (itemChildrens.length > 0) {
-//       countChidlrens(item.childrens);
-//     }
-//   });
-//   return totalNodes;
-// };
-
-// const getTotalChildrens = arr => {
-//   const totalodes = countChidlrens(arr);
-//   global.totalNodes = totalodes;
-// };
 
 const FamilyTree = () => {
   const scale = useSharedValue(1);
@@ -169,19 +41,8 @@ const FamilyTree = () => {
     transform: [{ scale: scale.value }],
   }));
 
-  const addChildrens = (_childrens, level, number) => {
-    const levelArray = new Array(level).fill(level);
-    // pick NODEs nested chilren of level
-    console.log('levelArray', levelArray, number);
-  };
-
   const nativeGesture =
     Gesture.Native().requireExternalGestureToFail(pinchGesture);
-  // getTotalChildrens(NODE.childrens);
-  const value = useMemo(
-    () => ({ nodes: NODE, addChildrens }),
-    [NODE, addChildrens],
-  );
 
   const { data, loading, error } = useQuery(GET_FAMILY_TREE, {
     variables: {
@@ -191,9 +52,26 @@ const FamilyTree = () => {
     },
   });
 
-  console.log('data', data);
+  const tree = data?.users?.length > 0 ? data?.users[0] : null;
 
-  const tree = data?.familyTree?.tree || [];
+  const value = useMemo(() => ({ nodes: tree }), [tree]);
+
+  if (loading) {
+    return (
+      <View className="flex flex-1 justify-center items-center ">
+        <ActivityIndicator size="large" color="#00ff00" />
+        <Text className="text-white">Loging In....</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex flex-1 justify-center items-center font-sans">
+        <Text>{error.message}</Text>
+      </View>
+    );
+  }
 
   return (
     <FamilyTreeContext.Provider value={value}>
@@ -217,7 +95,9 @@ const FamilyTree = () => {
                     },
                     animatedStyle,
                   ]}>
-                  <Node top node={tree} level={1} number={1} />
+                  {data.users.length > 0 && (
+                    <Node top node={data.users[0]} level={1} number={1} />
+                  )}
                 </Animated.View>
               </ScrollView>
             </ScrollView>
@@ -229,14 +109,3 @@ const FamilyTree = () => {
 };
 
 export default FamilyTree;
-
-// <FamilyNode
-//   node={{
-//     name: 'Rashid',
-//     childrens: [
-//       { name: 'Nagma' },
-//       { name: 'Nafisa' },
-//       { name: 'Irfan' },
-//     ],
-//   }}
-// />

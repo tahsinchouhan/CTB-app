@@ -32,8 +32,9 @@ const AppProvider = ({ children }) => {
     },
   });
   const user = data?.users?.length > 0 ? data?.users[0] : null;
+  console.log('user', userId);
 
-  const value = useMemo(() => ({ user, getProfile: refetch }), [data]);
+  const value = useMemo(() => ({ user, getProfile: refetch, userId }), [data]);
 
   if (loading) {
     return (

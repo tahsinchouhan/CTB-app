@@ -39,7 +39,7 @@ export const GET_FAMILY_TREE = gql`
     gender
     gotra
   }
-  query Users($where: UserWhere) {
+  query users($where: UserWhere) {
     users(where: $where) {
       email
       name
