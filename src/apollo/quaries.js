@@ -6,7 +6,7 @@ const GET_PROFILE = gql`
       email
       name
       gender
-      gotra
+      familyName
       picture
     }
   }
@@ -17,7 +17,7 @@ export const GET_FAMILY_TREE = gql`
     email
     name
     gender
-    gotra
+    familyName
     childrens {
       ...Children2
     }
@@ -27,7 +27,7 @@ export const GET_FAMILY_TREE = gql`
     email
     name
     gender
-    gotra
+    familyName
     childrens {
       ...Children3
     }
@@ -37,14 +37,14 @@ export const GET_FAMILY_TREE = gql`
     email
     name
     gender
-    gotra
+    familyName
   }
   query users($where: UserWhere) {
     users(where: $where) {
       email
       name
       gender
-      gotra
+      familyName
       childrens {
         ...Children1
       }
@@ -57,7 +57,7 @@ export const GET_ALL_FAMILIES = gql`
     getAllFamilies {
       name
       email
-      gotra
+      familyName
     }
   }
 `;

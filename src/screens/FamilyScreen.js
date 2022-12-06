@@ -74,7 +74,7 @@ const FamilyListItem = ({ item }) => {
       className="flex flex-row justify-between items-center h-14 px-5 border-b border-slate-200">
       <View className="flex flex-row items-center space-x-5">
         <Text className="text-black text-sm font-medium font-sans">
-          {item?.name.replace(item?.gotra, '')} {item.gotra} family
+          {item?.name.replace(item?.familyName, '')} {item.familyName} family
         </Text>
       </View>
       <View className="flex items-center justify-center">
