@@ -39,17 +39,6 @@ const Routes = () => {
     ({ local }) => ({ token: local?.token }),
     shallowEqual,
   );
-
-  useEffect(() => {
-    if (token === undefined || token === null) {
-      console.log('token', token);
-      console.log('navigationRef.isReady()', navigationRef.isReady());
-      if (navigationRef.isReady()) {
-        navigationRef.navigate(LOGIN_SCREEN);
-      }
-    }
-  }, [token]);
-
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator

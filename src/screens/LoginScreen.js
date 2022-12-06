@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -17,9 +17,12 @@ import LOGO2 from '../assets/images/logo2.png';
 import GoogleIcon from '../Components/SVG/GoogleIcon';
 import { setTokenAndId } from '../redux/localSlice';
 import { HOME_SCREEN } from '../utils/constant';
+import { AppContext } from '../AppContext';
 
 const LoadingScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  // const { getProfile } = useContext(AppContext);
   const [googleAuth, { loading }] = useMutation(GOOGLE_AUTH, {
     onCompleted: data => {
       console.log('data', data);
@@ -31,8 +34,11 @@ const LoadingScreen = ({ navigation }) => {
         }),
       );
       setTimeout(() => {
+        // getProfile({
+        //   email: payload?.email,
+        // });
         navigation.navigate(HOME_SCREEN);
-      }, 300);
+      }, 700);
     },
     onError: _error => {
       console.log('error', _error);
@@ -44,7 +50,9 @@ const LoadingScreen = ({ navigation }) => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const { idToken } = userInfo;
-      googleAuth({ variables: { idToken } });
+      googleAuth({
+        variables: { idToken },
+      });
     } catch (error) {
       console.log(error);
       // if (error.code === statusCodes.SIGN_IN_CANCELLED) {

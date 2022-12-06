@@ -23,11 +23,10 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export default () => {
-  const store = configureStore({
-    reducer: persistedReducer,
-    middleware: enhancers,
-  });
-  const persistor = persistStore(store);
-  return { store, persistor };
-};
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: enhancers,
+});
+
+const persistor = persistStore(store);
+export { store, persistor };

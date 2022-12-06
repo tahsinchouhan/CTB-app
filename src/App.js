@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { AppProvider } from './AppContext';
 import client from './client';
-import getStore from './redux/store';
+import { store, persistor } from './redux/store';
 import Router from './routes';
 
 GoogleSignin.configure({
@@ -27,27 +27,25 @@ GoogleSignin.configure({
 
 const queryClient = new QueryClient();
 
-const { store, persistor } = getStore();
-
 const App = () => (
   <GestureHandlerRootView style={styles.container}>
-    <ApolloProvider client={client}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <PersistGate
-            loading={
-              <View className="flex  bg-white flex-1 justify-center items-center">
-                <ActivityIndicator size="large" color="#0000ff" />
-              </View>
-            }
-            persistor={persistor}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate
+          loading={
+            <View className="flex  bg-white flex-1 justify-center items-center">
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+          }
+          persistor={persistor}>
+          <ApolloProvider client={client}>
             <AppProvider>
               <Router />
             </AppProvider>
-          </PersistGate>
-        </Provider>
-      </QueryClientProvider>
-    </ApolloProvider>
+          </ApolloProvider>
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
   </GestureHandlerRootView>
 );
 

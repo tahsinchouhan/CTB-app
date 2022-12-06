@@ -1,41 +1,51 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
-import React, { useMemo, useState } from 'react';
-import { ActivityIndicator, StatusBar, View } from 'react-native';
-import { shallowEqual, useSelector } from 'react-redux';
+import React, { useMemo } from 'react';
+import { ActivityIndicator, Image, StatusBar, Text, View } from 'react-native';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import GET_PROFILE from './apollo/quaries';
+import LOGO2 from './assets/images/logo2.png';
+import { setTokenAndId } from './redux/localSlice';
 
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
   const { token, userId } = useSelector(
     ({ local }) => ({ token: local?.token, userId: local?.userId }),
     shallowEqual,
   );
 
-  const { loading } = useQuery(GET_PROFILE, {
-    skip: !token && !userId,
+  const { data, loading, refetch } = useQuery(GET_PROFILE, {
+    skip: !userId && !token,
     variables: {
       where: {
         email: userId,
       },
     },
     onError: error => {
-      console.log('error', error);
-    },
-    onCompleted: data => {
-      console.log('data', data);
+      console.log('error', error.message);
+      if (error?.message.includes('Unauthenticated')) {
+        dispatch(setTokenAndId({ token: null, userId: null }));
+      }
     },
   });
+  const user = data?.users?.length > 0 ? data?.users[0] : null;
 
-  const value = useMemo(() => ({ user }), [user, setUser]);
+  const value = useMemo(() => ({ user, getProfile: refetch }), [data]);
 
   if (loading) {
     return (
-      <View className="flex flex-1 justify-center items-center">
+      <View className="flex flex-1 justify-center items-center bg-primary ">
+        <StatusBar
+          animated
+          backgroundColor="#137760"
+          barStyle="light-content"
+        />
+        <Image source={LOGO2} className="h-24 w-24" />
         <ActivityIndicator size="large" color="#00ff00" />
+        <Text className="text-white">Loging In....</Text>
       </View>
     );
   }

@@ -37,8 +37,8 @@ const HomePage = ({ navigation }) => {
   //   dispatch(setLang(lang));
   // };
 
-  const { loading, error, data } = useQuery(GET_LOCATIONS);
-  console.log('data', data, error, loading);
+  // const { loading, error, data } = useQuery(GET_LOCATIONS);
+  // console.log('data', data, error, loading);
 
   return (
     <SafeAreaView className="h-full bg-white flex pt-20 justify-between">
