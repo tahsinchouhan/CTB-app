@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-use-before-define */
+import { useQuery } from '@apollo/client';
+import { useRoute } from '@react-navigation/native';
 import React, { useMemo, useRef } from 'react';
 import { Dimensions, ScrollView, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -8,6 +10,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { GET_FAMILY_TREE } from '../apollo/quaries';
 import FamilyTreeContext from '../Components/FamilyTree/FamilyTreeContext';
 import Node from '../Components/FamilyTree/Node';
 
@@ -149,6 +152,8 @@ const FamilyTree = () => {
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
   const pinchRef = useRef();
+  const { params } = useRoute();
+  const { familyId } = params;
 
   const pinchGesture = Gesture.Pinch()
     .withRef(pinchRef)
@@ -178,6 +183,18 @@ const FamilyTree = () => {
     [NODE, addChildrens],
   );
 
+  const { data, loading, error } = useQuery(GET_FAMILY_TREE, {
+    variables: {
+      where: {
+        email: familyId,
+      },
+    },
+  });
+
+  console.log('data', data);
+
+  const tree = data?.familyTree?.tree || [];
+
   return (
     <FamilyTreeContext.Provider value={value}>
       <View className="flex flex-1 bg-[f4fdfb] justify-center items-center">
@@ -200,7 +217,7 @@ const FamilyTree = () => {
                     },
                     animatedStyle,
                   ]}>
-                  <Node top node={NODE} level={1} number={1} />
+                  <Node top node={tree} level={1} number={1} />
                 </Animated.View>
               </ScrollView>
             </ScrollView>

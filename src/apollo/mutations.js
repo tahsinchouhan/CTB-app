@@ -6,7 +6,7 @@ const GOOGLE_AUTH = gql`
       message
       payload {
         email
-        fullName
+        name
       }
       status
       token

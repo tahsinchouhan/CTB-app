@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -16,13 +16,11 @@ import LoginBGPNG from '../assets/images/login-bg.png';
 import LOGO2 from '../assets/images/logo2.png';
 import GoogleIcon from '../Components/SVG/GoogleIcon';
 import { setTokenAndId } from '../redux/localSlice';
-import { HOME_SCREEN } from '../utils/constant';
-import { AppContext } from '../AppContext';
+import { HOME_TAB } from '../utils/constant';
 
-const LoadingScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  // const { getProfile } = useContext(AppContext);
   const [googleAuth, { loading }] = useMutation(GOOGLE_AUTH, {
     onCompleted: data => {
       console.log('data', data);
@@ -37,7 +35,7 @@ const LoadingScreen = ({ navigation }) => {
         // getProfile({
         //   email: payload?.email,
         // });
-        navigation.navigate(HOME_SCREEN);
+        navigation.navigate(HOME_TAB);
       }, 700);
     },
     onError: _error => {
@@ -72,7 +70,7 @@ const LoadingScreen = ({ navigation }) => {
       source={LoginBGPNG}
       resizeMode="cover"
       style={styles.image}>
-      <View className="flex-1 border">
+      <View className="flex-1">
         <Image source={LOGO2} className="h-24 w-24 fixed top-10 left-5" />
         <View className="top-[41%] left-2">
           <Text className="text-green-600 text-base font-extrabold pb-1 ">
@@ -104,9 +102,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoadingScreen;
+export default LoginScreen;
 
-LoadingScreen.propTypes = {
+LoginScreen.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
