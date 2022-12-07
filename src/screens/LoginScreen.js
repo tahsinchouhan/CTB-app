@@ -16,7 +16,7 @@ import LoginBGPNG from '../assets/images/login-bg.png';
 import LOGO2 from '../assets/images/logo2.png';
 import GoogleIcon from '../Components/SVG/GoogleIcon';
 import { setTokenAndId } from '../redux/localSlice';
-import { HOME_TAB } from '../utils/constant';
+import Toast from '../Components/Toast';
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -31,15 +31,22 @@ const LoginScreen = ({ navigation }) => {
           userId: payload?.email,
         }),
       );
-      setTimeout(() => {
-        // getProfile({
-        //   email: payload?.email,
-        // });
-        navigation.navigate(HOME_TAB);
-      }, 700);
+      Toast.success({
+        title: 'Login Success',
+        message: 'Welcome to CMTBF',
+      });
+      // setTimeout(() => {
+      //   // getProfile({
+      //   //   email: payload?.email,
+      //   // });
+      //   navigation.navigate(HOME_TAB);
+      // }, 700);
     },
     onError: _error => {
-      console.log('error', _error);
+      Toast.error({
+        title: 'Login Failed',
+        message: _error.message,
+      });
     },
   });
 
@@ -52,7 +59,10 @@ const LoginScreen = ({ navigation }) => {
         variables: { idToken },
       });
     } catch (error) {
-      console.log(error);
+      Toast.error({
+        title: error.code,
+        message: 'Please try again',
+      });
       // if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       //   // user cancelled the login flow
       // } else if (error.code === statusCodes.IN_PROGRESS) {
