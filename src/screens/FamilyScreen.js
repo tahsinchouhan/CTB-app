@@ -76,6 +76,7 @@ const FamilyListItem = ({ item }) => {
         <Text className="text-black text-sm font-medium font-sans">
           {item?.name.replace(item?.familyName, '')} {item.familyName} family
         </Text>
+        <Text>Faimly members {item?.noOfMembers}</Text>
       </View>
       <View className="flex items-center justify-center">
         <ArrowRightIcon />

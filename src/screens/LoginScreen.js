@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { useMutation } from '@apollo/client';
 import GOOGLE_AUTH from '../apollo/mutations';
 import LoginBGPNG from '../assets/images/login-bg.png';
@@ -17,10 +18,11 @@ import LOGO2 from '../assets/images/logo2.png';
 import GoogleIcon from '../Components/SVG/GoogleIcon';
 import { setTokenAndId } from '../redux/localSlice';
 import Toast from '../Components/Toast';
+import { HOME_TAB } from '../utils/constant';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   const [googleAuth, { loading }] = useMutation(GOOGLE_AUTH, {
     onCompleted: data => {
       console.log('data', data);
@@ -35,12 +37,9 @@ const LoginScreen = ({ navigation }) => {
         title: 'Login Success',
         message: 'Welcome to CMTBF',
       });
-      // setTimeout(() => {
-      //   // getProfile({
-      //   //   email: payload?.email,
-      //   // });
-      //   navigation.navigate(HOME_TAB);
-      // }, 700);
+      setTimeout(() => {
+        navigation.navigate(HOME_TAB);
+      }, 700);
     },
     onError: _error => {
       Toast.error({

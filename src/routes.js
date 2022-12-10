@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import DetailsPage from './screens/DetailsPage';
 import DonationScreen from './screens/DonationScreen';
@@ -44,6 +44,15 @@ const Routes = () => {
     ({ local }) => ({ token: local?.token }),
     shallowEqual,
   );
+
+  useEffect(() => {
+    if (token === undefined || token === null) {
+      if (navigationRef.isReady()) {
+        navigationRef.navigate(LOGIN_SCREEN);
+      }
+    }
+  }, [token]);
+
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator

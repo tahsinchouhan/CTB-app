@@ -5,7 +5,7 @@ import { PenSVG } from '../assets/svg/SVG';
 import ProfileCard from '../Components/ProfileCard';
 import { setToken } from '../redux/localSlice';
 
-function ProfileScreen({ navigation }) {
+const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   return (
     <SafeAreaView className="bg-[#F9F9F9]">
@@ -46,6 +46,6 @@ function ProfileScreen({ navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default ProfileScreen;

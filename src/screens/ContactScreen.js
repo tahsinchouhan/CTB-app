@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from '@apollo/client';
 import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
-
-const constacts = [
-  {
-    name: 'Tahsin Chouham',
-    email: 'tahsin@gmail.com',
-    image: 'https://randomuser.me',
-  },
-  {
-    name: 'Tahsin Chouham',
-    email: 'wow@gmail.com',
-    image: 'https://randomuser.me',
-  },
-];
+import { SEARCH_USERS } from '../apollo/quaries';
 
 const ContactScreen = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
 
   const renderItem = ({ item }) => <ContactListItem item={item} />;
+
+  const { data, error, loading, refetch } = useQuery(SEARCH_USERS, {
+    variables: {
+      query: '',
+      limit: 50,
+      skip: 0,
+    },
+  });
+
+  const families = data?.searchUser || [];
 
   return (
     <View className="flex flex-1 ">
@@ -41,8 +40,18 @@ const ContactScreen = () => {
       </View>
       <FlatList
         className="flex-1"
-        data={constacts}
+        data={families}
         renderItem={renderItem}
+        refreshing={loading}
+        onRefresh={refetch}
+        // when you have no family
+        ListEmptyComponent={
+          <View className="flex-1 justify-center items-center mt-20">
+            <Text className="text-2xl font-bold">
+              {error ? error.message : 'No Family'}
+            </Text>
+          </View>
+        }
         keyExtractor={item => item.email}
       />
     </View>

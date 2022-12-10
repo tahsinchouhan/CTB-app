@@ -55,9 +55,22 @@ export const GET_FAMILY_TREE = gql`
 export const GET_ALL_FAMILIES = gql`
   query Query {
     getAllFamilies {
+      familyName
       name
       email
+      noOfMembers
+    }
+  }
+`;
+
+export const SEARCH_USERS = gql`
+  query SearchUser($query: String, $limit: Int, $skip: Int) {
+    searchUser(query: $query, limit: $limit, skip: $skip) {
+      email
       familyName
+      gender
+      name
+      picture
     }
   }
 `;
