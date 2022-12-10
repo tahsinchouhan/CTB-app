@@ -1,17 +1,16 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Image,
+  Linking,
   Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
+  View
 } from 'react-native';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { setLang, setToken, setTokenAndId } from '../redux/localSlice';
-import { PROFILE_SCREEN } from '../utils/constant';
+import { useDispatch } from 'react-redux';
+import { setTokenAndId } from '../redux/localSlice';
 
 const GET_LOCATIONS = gql`
   query {
@@ -40,6 +39,15 @@ const HomePage = ({ navigation }) => {
   // const { loading, error, data } = useQuery(GET_LOCATIONS);
   // console.log('data', data, error, loading);
 
+  const upiURl =
+    'upi://pay?pa=chouhan.rizwan@okhdfcbank&pn=RizwanChouhan&mc=0000&mode=02&purpose=00';
+
+  const upiOpener = () => {
+    Linking.openURL(upiURl).then(response => {
+      console.log('response', response);
+    });
+  };
+
   return (
     <SafeAreaView className="h-full bg-white flex pt-20 justify-between">
       <View className="py-6 flex justify-between">
@@ -63,7 +71,8 @@ const HomePage = ({ navigation }) => {
         </Pressable>
         <Pressable
           onPress={() => {
-            navigation.navigate(PROFILE_SCREEN);
+            upiOpener();
+            //navigation.navigate(PROFILE_SCREEN);
           }}>
           <View className="flex justify-center items-center bg-[#00A859] h-11 rounded-2xl w-[80%] mx-auto mt-5">
             <Text className="text-white  text-base font-bold font-sans">
@@ -127,3 +136,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+
+// request UPI trnasaction from NPCI using ndoe js 
+// Path: src/screens/HomeScreen.js
+
+fetch('https://npci/pay', {')
