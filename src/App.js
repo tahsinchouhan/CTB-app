@@ -2,12 +2,13 @@ import { ApolloProvider } from '@apollo/client';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { AppProvider } from './AppContext';
 import client from './client';
+import Loading from './Components/Loading';
 import { store, persistor } from './redux/store';
 import Router from './routes';
 
@@ -31,13 +32,7 @@ const App = () => (
   <GestureHandlerRootView style={styles.container}>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <PersistGate
-          loading={
-            <View className="flex  bg-white flex-1 justify-center items-center">
-              <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-          }
-          persistor={persistor}>
+        <PersistGate loading={<Loading />} persistor={persistor}>
           <ApolloProvider client={client}>
             <AppProvider>
               <Router />

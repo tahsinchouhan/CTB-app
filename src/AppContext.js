@@ -2,10 +2,10 @@
 import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
-import { ActivityIndicator, Image, StatusBar, Text, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import GET_PROFILE from './apollo/quaries';
-import LOGO2 from './assets/images/logo2.png';
+import Loading from './Components/Loading';
 import { setTokenAndId } from './redux/localSlice';
 
 const AppContext = React.createContext();
@@ -37,18 +37,7 @@ const AppProvider = ({ children }) => {
   const value = useMemo(() => ({ user, getProfile: refetch, userId }), [data]);
 
   if (loading) {
-    return (
-      <View className="flex flex-1 justify-center items-center bg-primary ">
-        <StatusBar
-          animated
-          backgroundColor="#137760"
-          barStyle="light-content"
-        />
-        <Image source={LOGO2} className="h-24 w-24" />
-        <ActivityIndicator size="large" color="#00ff00" />
-        <Text className="text-white">Loging In....</Text>
-      </View>
-    );
+    return <Loading />;
   }
 
   return (

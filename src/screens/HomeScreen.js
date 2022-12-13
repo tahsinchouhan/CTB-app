@@ -1,28 +1,32 @@
-import { gql } from '@apollo/client';
 import React from 'react';
 import {
   Image,
   Linking,
   Pressable,
   SafeAreaView,
-  StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setTokenAndId } from '../redux/localSlice';
+import ContactsApi from '../utils/ContactDB';
 
-const GET_LOCATIONS = gql`
-  query {
-    users {
-      name
-      email
-    }
-  }
-`;
+// const GET_LOCATIONS = gql`
+//   query {
+//     users {
+//       name
+//       email
+//     }
+//   }
+// `;
 
-const HomePage = ({ navigation }) => {
+const HomePage = () => {
   const dispatch = useDispatch();
+
+  // useQuery([SYNC_CONTACTS_LOCAL], ContactsApi.syncContactsLocal);
+  // const { data } = useQuery([GET_CONTACTS], ContactsApi.getContacts);
+  // console.log('data', data.length);
+
   // const { t, i18n } = useTranslation();
   // const { langPicked } = useSelector(
   //   ({ local }) => ({
@@ -71,7 +75,11 @@ const HomePage = ({ navigation }) => {
         </Pressable>
         <Pressable
           onPress={() => {
-            upiOpener();
+            // mutate({
+            //   name: 'Rizwan',
+            //   email: 'choouhan.rizwan@gmail.com',
+            //   number: '9827866360',
+            // });
             //navigation.navigate(PROFILE_SCREEN);
           }}>
           <View className="flex justify-center items-center bg-[#00A859] h-11 rounded-2xl w-[80%] mx-auto mt-5">
@@ -90,55 +98,3 @@ const HomePage = ({ navigation }) => {
 };
 
 export default HomePage;
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    width: '80%',
-    height: '30%',
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-});
-
-
-// request UPI trnasaction from NPCI using ndoe js 
-// Path: src/screens/HomeScreen.js
-
-fetch('https://npci/pay', {')

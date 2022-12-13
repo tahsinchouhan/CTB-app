@@ -21,18 +21,24 @@ import {
   DONATION_SCREEN,
   FAMILY_SCREEN,
   FAMILY_TREE_SCREEN,
+  GET_ALL_PERMISSONS,
   GET_STARTED_SCREEN,
   HOME_SCREEN,
   HOME_TAB,
   LOGIN_SCREEN,
   PAYMENT_SCREEN,
   PAYMENT_SUCESS_SCREEN,
+  PERMISSION_SCREEN,
   PROFILE_SCREEN,
   TRANSACTIONS_SCREEN,
 } from './utils/constant';
 import LoginScreen from './screens/LoginScreen';
 import ContactScreen from './screens/ContactScreen';
 import FamilyScreen from './screens/FamilyScreen';
+import PermissionScreen from './screens/PermissionScreen';
+import { useQuery } from '@tanstack/react-query';
+import GlobalController from './utils/GlobalController';
+import Loading from './Components/Loading';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -45,19 +51,54 @@ const Routes = () => {
     shallowEqual,
   );
 
+  const { data, state } = useQuery(
+    [GET_ALL_PERMISSONS],
+    GlobalController.requestCameraPermission,
+  );
+
+  const permissions = data || [];
+
   useEffect(() => {
     if (token === undefined || token === null) {
       if (navigationRef.isReady()) {
         navigationRef.navigate(LOGIN_SCREEN);
       }
+    } else {
+      const isPermissionGranted = permissions.every(
+        permission => permission.status === 'granted',
+      );
+      if (!isPermissionGranted) {
+        if (navigationRef.isReady()) {
+          navigationRef.navigate(PERMISSION_SCREEN);
+        }
+      }
     }
-  }, [token]);
+  }, [token, permissions]);
+
+  if (state === 'loading') {
+    return <Loading />;
+  }
+
+  const getinitialRouteName = () => {
+    if (token) {
+      const isPermissionGranted = permissions.every(
+        permission => permission.status === 'granted',
+      );
+      if (isPermissionGranted) {
+        return HOME_TAB;
+      }
+      return PERMISSION_SCREEN;
+    }
+    return LOGIN_SCREEN;
+  };
+  console.log('getinitialRouteName', getinitialRouteName());
 
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
-        initialRouteName={token ? HOME_TAB : LOGIN_SCREEN}
+        initialRouteName={getinitialRouteName()}
         screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={PERMISSION_SCREEN} component={PermissionScreen} />
         <Stack.Screen name={LOGIN_SCREEN} component={LoginScreen} />
         <Stack.Screen name={DETAILS_SCREEN} component={DetailsPage} />
         <Stack.Screen name={HOME_TAB} component={BottomTabs} />

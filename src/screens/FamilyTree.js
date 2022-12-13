@@ -3,7 +3,7 @@
 /* eslint-disable no-use-before-define */
 import { useQuery } from '@apollo/client';
 import { useRoute } from '@react-navigation/native';
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -21,9 +21,11 @@ import FamilyTreeContext from '../Components/FamilyTree/FamilyTreeContext';
 import Node from '../Components/FamilyTree/Node';
 
 const FamilyTree = () => {
-  const scale = useSharedValue(1);
-  const savedScale = useSharedValue(1);
+  const scale = useSharedValue(0.5);
+  const savedScale = useSharedValue(0.5);
   const pinchRef = useRef();
+  const verticalScroll = useRef();
+  const horizontalScroll = useRef();
   const { params } = useRoute();
   const { familyId } = params;
 
@@ -56,6 +58,17 @@ const FamilyTree = () => {
 
   const value = useMemo(() => ({ nodes: tree }), [tree]);
 
+  useEffect(() => {
+    verticalScroll?.current?.scrollTo({
+      y: Dimensions.get('window').height / 2,
+      animated: true,
+    });
+    horizontalScroll?.current?.scrollTo({
+      x: Dimensions.get('window').width / 2,
+      animated: true,
+    });
+  }, [tree]);
+
   if (loading) {
     return (
       <View className="flex flex-1 justify-center items-center ">
@@ -75,22 +88,36 @@ const FamilyTree = () => {
 
   return (
     <FamilyTreeContext.Provider value={value}>
-      <View className="flex flex-1 bg-[f4fdfb] justify-center items-center">
-        <GestureDetector gesture={pinchGesture}>
+      <GestureDetector gesture={pinchGesture}>
+        <View
+          className="flex flex-1 justify-center items-center overflow-hidden border-8 border-slate-200  "
+          style={{
+            backgroundColor: 'transparent',
+            overflow: 'hidden',
+            shadowColor: 'black',
+            shadowRadius: 8,
+            shadowOpacity: 0.7,
+          }}>
           <GestureDetector gesture={nativeGesture}>
-            <ScrollView waitFor={pinchRef}>
-              <ScrollView horizontal waitFor={pinchRef}>
+            <ScrollView
+              waitFor={pinchRef}
+              showsVerticalScrollIndicator={false}
+              ref={verticalScroll}>
+              <ScrollView
+                horizontal
+                waitFor={pinchRef}
+                showsHorizontalScrollIndicator={false}
+                ref={horizontalScroll}>
                 <Animated.View
                   style={[
                     {
                       flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
                       width: '100%',
                       height: '100%',
                       minHeight: Dimensions.get('window').height * 2,
                       minWidth: Dimensions.get('window').width * 2,
-                      justifyContent: 'flex-start',
-                      alignItems: 'flex-start',
-                      // borderWidth: 1,
                       overflow: 'scroll',
                     },
                     animatedStyle,
@@ -102,8 +129,8 @@ const FamilyTree = () => {
               </ScrollView>
             </ScrollView>
           </GestureDetector>
-        </GestureDetector>
-      </View>
+        </View>
+      </GestureDetector>
     </FamilyTreeContext.Provider>
   );
 };

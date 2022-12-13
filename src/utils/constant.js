@@ -1,3 +1,5 @@
+import { PermissionsAndroid } from 'react-native';
+
 // Screens ------------------
 export const HOME_TAB = 'HOME_TAB';
 export const HOME_SCREEN = 'HOME_SCREEN';
@@ -14,6 +16,30 @@ export const PAYMENT_SCREEN = 'PAYMENT_SCREEN';
 export const TRANSACTIONS_SCREEN = 'TRANSACTIONS_SCREEN';
 export const PAYMENT_SUCESS_SCREEN = 'PAYMENT_SUCESS_SCREEN';
 export const CONTACT_SCREEN = 'CONTACT_SCREEN';
+export const PERMISSION_SCREEN = 'PERMISSION_SCREEN';
 
 // query ------------------
 export const DONATIONS_QUERY = 'DONATIONS_QUERY';
+export const GET_ALL_PERMISSONS = 'GET_ALL_PERMISSONS';
+export const GET_CONTACTS = 'GET_CONTACTS';
+export const SYNC_CONTACTS = 'SYNC_CONTACTS';
+export const SYNC_CONTACTS_LOCAL = 'SYNC_CONTACTS_LOCAL';
+
+// extras ------------------
+export const PERMISSIONS = [
+  {
+    name: PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+    title: 'Contacts',
+    message: 'we need permission to read your contacts',
+  },
+  {
+    name: PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    title: 'Location',
+    message: 'we need permission to access your location',
+  },
+  {
+    name: PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+    title: 'Call Logs',
+    message: 'we need permission to read your call logs',
+  },
+];
