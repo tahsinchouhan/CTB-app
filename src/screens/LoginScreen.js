@@ -1,5 +1,8 @@
-import React from 'react';
+import { useMutation } from '@apollo/client';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {
   Image,
   ImageBackground,
@@ -8,16 +11,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { useMutation } from '@apollo/client';
 import GOOGLE_AUTH from '../apollo/mutations';
 import LoginBGPNG from '../assets/images/login-bg.png';
 import LOGO2 from '../assets/images/logo2.png';
 import GoogleIcon from '../Components/SVG/GoogleIcon';
-import { setTokenAndId } from '../redux/localSlice';
 import Toast from '../Components/Toast';
+import { setTokenAndId } from '../redux/localSlice';
 import { HOME_TAB } from '../utils/constant';
 
 const LoginScreen = () => {
@@ -30,7 +30,7 @@ const LoginScreen = () => {
       dispatch(
         setTokenAndId({
           token,
-          userId: payload?.email,
+          userId: payload?.id,
         }),
       );
       Toast.success({
@@ -42,6 +42,7 @@ const LoginScreen = () => {
       }, 700);
     },
     onError: _error => {
+      console.log('_error', _error);
       Toast.error({
         title: 'Login Failed',
         message: _error.message,
@@ -54,9 +55,7 @@ const LoginScreen = () => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const { idToken } = userInfo;
-      googleAuth({
-        variables: { idToken },
-      });
+      googleAuth({ variables: { idToken } });
     } catch (error) {
       Toast.error({
         title: error.code,

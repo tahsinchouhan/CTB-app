@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import {
   Image,
@@ -9,6 +10,10 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setTokenAndId } from '../redux/localSlice';
+import {
+  START_SYNC_CONTACTS,
+  START_SYNC_LOCAL_CONTACTS,
+} from '../utils/constant';
 import ContactsApi from '../utils/ContactDB';
 
 // const GET_LOCATIONS = gql`
@@ -23,9 +28,13 @@ import ContactsApi from '../utils/ContactDB';
 const HomePage = () => {
   const dispatch = useDispatch();
 
-  // useQuery([SYNC_CONTACTS_LOCAL], ContactsApi.syncContactsLocal);
+  useQuery([START_SYNC_LOCAL_CONTACTS], ContactsApi.syncContactsLocal);
   // const { data } = useQuery([GET_CONTACTS], ContactsApi.getContacts);
-  // console.log('data', data.length);
+  const { data } = useQuery(
+    [START_SYNC_CONTACTS],
+    ContactsApi.startSyncContacts,
+  );
+  console.log('data', data);
 
   // const { t, i18n } = useTranslation();
   // const { langPicked } = useSelector(

@@ -5,6 +5,7 @@ const GET_PROFILE = gql`
     users(where: $where) {
       email
       name
+      id
       gender
       familyName
       picture
@@ -15,6 +16,7 @@ const GET_PROFILE = gql`
 export const GET_FAMILY_TREE = gql`
   fragment Children1 on User {
     email
+    id
     name
     gender
     familyName
@@ -25,6 +27,7 @@ export const GET_FAMILY_TREE = gql`
 
   fragment Children2 on User {
     email
+    id
     name
     gender
     familyName
@@ -35,6 +38,7 @@ export const GET_FAMILY_TREE = gql`
 
   fragment Children3 on User {
     email
+    id
     name
     gender
     familyName
@@ -42,6 +46,7 @@ export const GET_FAMILY_TREE = gql`
   query users($where: UserWhere) {
     users(where: $where) {
       email
+      id
       name
       gender
       familyName
@@ -57,6 +62,7 @@ export const GET_ALL_FAMILIES = gql`
     getAllFamilies {
       familyName
       name
+      id
       email
       noOfMembers
     }
@@ -67,6 +73,7 @@ export const SEARCH_USERS = gql`
   query SearchUser($query: String, $limit: Int, $skip: Int) {
     searchUser(query: $query, limit: $limit, skip: $skip) {
       email
+      id
       familyName
       gender
       name

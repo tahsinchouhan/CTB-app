@@ -3,7 +3,8 @@ import { setContext } from '@apollo/client/link/context';
 import { store } from './redux/store';
 
 const httpLink = createHttpLink({
-  uri: 'https://api.ctbindia.com/',
+  // uri: 'https://api.ctbindia.com/',
+  uri: 'http://192.168.0.199:4001/',
 });
 
 const authLink = setContext((_, props) => {
@@ -26,8 +27,6 @@ const authLink = setContext((_, props) => {
   if (token !== null) {
     myHeaders.authorization = token ? `Bearer ${token}` : '';
   }
-
-  console.log('token', myHeaders);
 
   return {
     headers: myHeaders,

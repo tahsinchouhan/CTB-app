@@ -21,18 +21,18 @@ const AppProvider = ({ children }) => {
     skip: !userId && !token,
     variables: {
       where: {
-        email: userId,
+        id: userId,
       },
     },
     onError: error => {
-      console.log('error', error.message);
+      console.log('error1', error.message);
       if (error?.message.includes('Unauthenticated')) {
         dispatch(setTokenAndId({ token: null, userId: null }));
       }
     },
   });
   const user = data?.users?.length > 0 ? data?.users[0] : null;
-  console.log('user', userId);
+  console.log('user', user);
 
   const value = useMemo(() => ({ user, getProfile: refetch, userId }), [data]);
 

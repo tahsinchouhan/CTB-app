@@ -1,5 +1,7 @@
-import React from 'react';
+import { useQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {
   FlatList,
   Pressable,
@@ -8,8 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useQuery } from '@apollo/client';
-import { useNavigation } from '@react-navigation/native';
 import { GET_ALL_FAMILIES } from '../apollo/quaries';
 import ArrowRightIcon from '../Components/SVG/ArrowRightIcon';
 import { FAMILY_TREE_SCREEN } from '../utils/constant';
@@ -27,7 +27,7 @@ const FamilyScreen = () => {
     <View className="flex flex-1">
       <View className="flex flex-row border-2 border-gray-200 rounded-xl h-11 px-3 mx-2 my-2 ">
         <TextInput
-          className=" flex-1"
+          className="flex-1"
           onChangeText={value => setSearchTerm(value)}
           value={searchTerm}
           placeholder="Search people"
