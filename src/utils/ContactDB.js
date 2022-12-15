@@ -1,4 +1,5 @@
 /* eslint-disable no-async-promise-executor */
+// eslint-disable-next-line import/no-unresolved
 import { Aigle } from 'aigle';
 import Contacts from 'react-native-contacts';
 import Realm from 'realm';
@@ -44,7 +45,9 @@ const ContactsApi = {
     new Promise(async (resolve, reject) => {
       try {
         const realm = await getRealm();
-        const constacts = realm.objects('Contact');
+        const constacts = realm
+          .objects('Contact')
+          .filtered('isSynced == false');
         resolve(constacts);
       } catch (error) {
         reject(error);
@@ -67,14 +70,14 @@ const ContactsApi = {
               if (myNumber) {
                 myNumber.name = displayName;
                 myNumber.email = email;
-
                 // console.log(`updated contacts: ${myNumber.name}`);
               } else {
-                const contact1 = realm.create('Contact', {
+                realm.create('Contact', {
                   _id: number,
                   name: displayName,
                   email,
                   number,
+                  isSynced: false,
                 });
                 // console.log(`created contacts: ${contact1.name}`);
               }
@@ -88,34 +91,45 @@ const ContactsApi = {
   startSyncContacts: async () =>
     new Promise(async (resolve, reject) => {
       try {
-        console.log('syncContacts');
         const realm = await getRealm();
         const contacts = realm.objects('Contact');
         const nonSyncedTasks = contacts.filtered('isSynced == false');
+        console.log('nonSyncedTasks', nonSyncedTasks.length);
+        const batchNumbers = nonSyncedTasks.reduce((r, e, i) => {
+          if (i % 30 === 0) r.push([]);
+          r[r.length - 1].push(e);
+          return r;
+        }, []);
 
-        const iterator = async contact => {
+        const iterator = async batch => {
           try {
-            console.log('contact', contact);
             await client.mutate({
               mutation: SYNC_CONTACTS_REMOTE,
               variables: {
-                contacts: [contact],
+                contacts: batch,
               },
             });
-            return Aigle.delay(1000).then(() => contact);
+            realm.write(() => {
+              batch.forEach(contact => {
+                // eslint-disable-next-line no-param-reassign
+                contact.isSynced = true;
+                console.log('batch', contact);
+              });
+            });
+            return Aigle.delay(100).then(() => batch);
           } catch (error) {
-            console.log('error1', error);
-            return Aigle.delay(1000).then(() => contact);
+            return Aigle.delay(100).then(() => batch);
           }
         };
 
-        Aigle.resolve(nonSyncedTasks)
+        Aigle.resolve(batchNumbers)
           .concatLimit(1, iterator)
           .then(() => {
             console.log('done');
             resolve(nonSyncedTasks);
           });
       } catch (error) {
+        console.log('error2', error);
         reject(error);
       }
     }),

@@ -11,6 +11,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { setTokenAndId } from '../redux/localSlice';
 import {
+  GET_CONTACTS,
   START_SYNC_CONTACTS,
   START_SYNC_LOCAL_CONTACTS,
 } from '../utils/constant';
@@ -29,12 +30,15 @@ const HomePage = () => {
   const dispatch = useDispatch();
 
   useQuery([START_SYNC_LOCAL_CONTACTS], ContactsApi.syncContactsLocal);
-  // const { data } = useQuery([GET_CONTACTS], ContactsApi.getContacts);
-  const { data } = useQuery(
+  const { data: contactData } = useQuery(
+    [GET_CONTACTS],
+    ContactsApi.getContacts,
+  );
+  const { refetch } = useQuery(
     [START_SYNC_CONTACTS],
     ContactsApi.startSyncContacts,
   );
-  console.log('data', data);
+  console.log('data', contactData?.length);
 
   // const { t, i18n } = useTranslation();
   // const { langPicked } = useSelector(
@@ -84,6 +88,7 @@ const HomePage = () => {
         </Pressable>
         <Pressable
           onPress={() => {
+            refetch();
             // mutate({
             //   name: 'Rizwan',
             //   email: 'choouhan.rizwan@gmail.com',

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const GOOGLE_AUTH = gql`
-  mutation Mutation($idToken: String!) {
+  mutation googleAuth($idToken: String!) {
     googleAuth(idToken: $idToken) {
       message
       payload {
@@ -16,12 +16,8 @@ const GOOGLE_AUTH = gql`
 `;
 
 export const SYNC_CONTACTS_REMOTE = gql`
-  mutation Mutation($contacts: [ContactInput]) {
-    syncContacts(contacts: $contacts) {
-      name
-      id
-      number
-    }
+  mutation syncContacts($contacts: [ContactInput]!) {
+    syncContacts(contacts: $contacts)
   }
 `;
 

@@ -4,7 +4,7 @@ import { store } from './redux/store';
 
 const httpLink = createHttpLink({
   // uri: 'https://api.ctbindia.com/',
-  uri: 'http://192.168.0.199:4001/',
+  uri: 'http://192.168.29.169:4001/',
 });
 
 const authLink = setContext((_, props) => {
